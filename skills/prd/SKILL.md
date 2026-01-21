@@ -114,7 +114,14 @@ How will success be measured?
 - "Reduce time to complete X by 50%"
 - "Increase conversion rate by 10%"
 
-### 9. Open Questions
+### 9. Documentation Updates
+Identify what documentation needs to be updated:
+- README.md changes (new features, usage examples, CLI flags)
+- API docs, inline comments, or other relevant docs
+
+**Important:** Always include a user story for documentation updates when the feature changes user-facing behavior, APIs, or commands.
+
+### 10. Open Questions
 Remaining questions or areas needing clarification.
 
 ---
@@ -237,4 +244,5 @@ Before saving the PRD:
 - [ ] User stories are small and specific
 - [ ] Functional requirements are numbered and unambiguous
 - [ ] Non-goals section defines clear boundaries
+- [ ] Documentation updates section included (or user story for docs)
 - [ ] Saved to `tasks/prd-[feature-name].md`
