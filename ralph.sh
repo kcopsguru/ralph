@@ -10,9 +10,33 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MAX_ITERATIONS=10
 PROMPT_FILE="$SCRIPT_DIR/prompt.md"
 
+# Help function
+show_help() {
+  cat << EOF
+Ralph Wiggum - Long-running AI agent loop
+
+Usage: ./ralph.sh [OPTIONS]
+
+Options:
+  --prompt <file>         Path to prompt file (default: prompt.md in script directory)
+  --max-iterations <n>    Maximum number of iterations (default: 10)
+  -h, --help              Show this help message and exit
+
+Examples:
+  ./ralph.sh                                    # Use defaults
+  ./ralph.sh --max-iterations 5                 # Run max 5 iterations
+  ./ralph.sh --prompt custom.md                 # Use custom prompt file
+  ./ralph.sh --prompt /path/to/file.md --max-iterations 20
+EOF
+}
+
 # Parse named flags
 while [[ $# -gt 0 ]]; do
   case $1 in
+    -h|--help)
+      show_help
+      exit 0
+      ;;
     --prompt)
       PROMPT_FILE="$2"
       shift 2
