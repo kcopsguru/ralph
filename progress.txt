@@ -18,3 +18,13 @@ Thread: https://ampcode.com/threads/T-019be2a0-d416-729f-860a-faa04d968362
   - The script uses `PROMPT_FILE` variable for the prompt path - use this for US-002 path validation
   - Default prompt is `$SCRIPT_DIR/prompt.md`
 ---
+
+## 2026-01-21 14:15 - US-002
+Thread: https://ampcode.com/threads/T-019be2cc-9b43-75e6-a85b-2b5ddcba76bb
+- Added prompt file validation with `[ ! -f "$PROMPT_FILE" ]` check
+- Exits with code 1 and clear error message showing which file was not found
+- Files changed: ralph.sh
+- **Learnings for future iterations:**
+  - Validation order matters: validate max-iterations first (it's simpler), then prompt file
+  - Relative paths work automatically since bash resolves them from CWD
+---
