@@ -1,38 +1,11 @@
 #!/bin/bash
 # Ralph Wiggum - Long-running AI agent loop
-# Usage: ./ralph.sh [--prompt <file>] [--max-iterations <n>]
+# Usage: ./ralph.sh [max_iterations]
 
 set -e
 
+MAX_ITERATIONS=${1:-10}
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# Defaults
-MAX_ITERATIONS=10
-PROMPT_FILE="$SCRIPT_DIR/prompt.md"
-
-# Parse named flags
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    --prompt)
-      PROMPT_FILE="$2"
-      shift 2
-      ;;
-    --max-iterations)
-      MAX_ITERATIONS="$2"
-      shift 2
-      ;;
-    *)
-      echo "Error: Unknown option: $1" >&2
-      exit 1
-      ;;
-  esac
-done
-
-# Validate max-iterations is a positive integer
-if ! [[ "$MAX_ITERATIONS" =~ ^[1-9][0-9]*$ ]]; then
-  echo "Error: --max-iterations must be a positive integer, got: $MAX_ITERATIONS" >&2
-  exit 1
-fi
 PRD_FILE="$SCRIPT_DIR/prd.json"
 PROGRESS_FILE="$SCRIPT_DIR/progress.txt"
 ARCHIVE_DIR="$SCRIPT_DIR/archive"
@@ -87,7 +60,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   echo "═══════════════════════════════════════════════════════"
   
   # Run amp with the ralph prompt
-  OUTPUT=$(cat "$PROMPT_FILE" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
+  OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
   
   # Check for completion signal
   if echo "$OUTPUT" | grep -q "<promise>COMPLETE</promise>"; then
