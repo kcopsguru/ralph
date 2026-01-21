@@ -1,0 +1,20 @@
+# Ralph Progress Log
+Started: Wed 21 Jan 2026 13:53:50 PST
+---
+
+## Codebase Patterns
+- Use `[[ $# -gt 0 ]]` with `shift` for bash flag parsing
+- Regex `^[1-9][0-9]*$` validates positive integers (excludes 0 and negatives)
+
+---
+
+## 2026-01-21 14:05 - US-001
+Thread: https://ampcode.com/threads/T-019be2a0-d416-729f-860a-faa04d968362
+- Refactored ralph.sh to use named `--prompt` and `--max-iterations` flags
+- Replaced positional `$1` with while-loop flag parser
+- Added validation for positive integer on max-iterations
+- Files changed: ralph.sh
+- **Learnings for future iterations:**
+  - The script uses `PROMPT_FILE` variable for the prompt path - use this for US-002 path validation
+  - Default prompt is `$SCRIPT_DIR/prompt.md`
+---

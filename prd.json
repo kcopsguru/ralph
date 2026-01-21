@@ -1,0 +1,66 @@
+{
+  "project": "Ralph",
+  "branchName": "ralph/cli-flags-refactor",
+  "description": "Refactor ralph.sh to accept named command-line flags for prompt file and max iterations",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Parse named command-line flags",
+      "description": "As a user, I want to use named flags so the script is self-documenting and argument order doesn't matter.",
+      "acceptanceCriteria": [
+        "Script accepts --prompt <file> flag for prompt file path",
+        "Script accepts --max-iterations <n> flag for iteration count",
+        "Both flags are optional",
+        "Flags can be provided in any order",
+        "Script runs successfully with no flags (uses defaults)",
+        "Validate max-iterations is a positive integer"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Custom prompt file support with path validation",
+      "description": "As a user, I want to specify a custom prompt file so I can run Ralph for different tasks.",
+      "acceptanceCriteria": [
+        "--prompt /absolute/path/to/file.md works",
+        "--prompt relative/path/file.md works (relative to CWD)",
+        "Script exits with error code 1 if specified file doesn't exist",
+        "Error message clearly states which file was not found",
+        "Default prompt.md (in script directory) used when flag omitted"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Add help flag",
+      "description": "As a user, I want a help flag so I can see available options.",
+      "acceptanceCriteria": [
+        "--help or -h displays usage information",
+        "Help shows all available flags with descriptions",
+        "Help shows default values",
+        "Script exits after displaying help"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Update README documentation",
+      "description": "As a user, I want updated documentation so I know how to use the new CLI flags.",
+      "acceptanceCriteria": [
+        "README.md includes usage section with all CLI flags",
+        "Examples show --prompt and --max-iterations usage",
+        "Default values documented",
+        "AGENTS.md updated if it references ralph.sh usage"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
