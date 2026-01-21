@@ -45,7 +45,7 @@
         "Script exits after displaying help"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {

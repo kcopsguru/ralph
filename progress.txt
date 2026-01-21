@@ -28,3 +28,13 @@ Thread: https://ampcode.com/threads/T-019be2cc-9b43-75e6-a85b-2b5ddcba76bb
   - Validation order matters: validate max-iterations first (it's simpler), then prompt file
   - Relative paths work automatically since bash resolves them from CWD
 ---
+
+## 2026-01-21 14:25 - US-003
+Thread: https://ampcode.com/threads/T-019be2cf-c3d0-74cd-aee5-e0840eb5083f
+- Added `show_help()` function with heredoc displaying usage, options, defaults, and examples
+- Added `-h|--help` case in flag parser that calls show_help and exits 0
+- Files changed: ralph.sh
+- **Learnings for future iterations:**
+  - Use `cat << EOF ... EOF` heredoc for multi-line help text (cleaner than multiple echo statements)
+  - Place help case first in the switch for readability
+---
