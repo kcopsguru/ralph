@@ -33,6 +33,12 @@ if ! [[ "$MAX_ITERATIONS" =~ ^[1-9][0-9]*$ ]]; then
   echo "Error: --max-iterations must be a positive integer, got: $MAX_ITERATIONS" >&2
   exit 1
 fi
+
+# Validate prompt file exists
+if [ ! -f "$PROMPT_FILE" ]; then
+  echo "Error: Prompt file not found: $PROMPT_FILE" >&2
+  exit 1
+fi
 PRD_FILE="$SCRIPT_DIR/prd.json"
 PROGRESS_FILE="$SCRIPT_DIR/progress.txt"
 ARCHIVE_DIR="$SCRIPT_DIR/archive"
