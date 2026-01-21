@@ -74,10 +74,32 @@ This creates `prd.json` with user stories structured for autonomous execution.
 ### 3. Run Ralph
 
 ```bash
-./scripts/ralph/ralph.sh [max_iterations]
+./scripts/ralph/ralph.sh [OPTIONS]
 ```
 
-Default is 10 iterations.
+**CLI Flags:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--prompt <file>` | Path to prompt file | `prompt.md` in script directory |
+| `--max-iterations <n>` | Maximum iterations to run | `10` |
+| `-h`, `--help` | Show help message | - |
+
+**Examples:**
+
+```bash
+# Run with defaults (prompt.md, 10 iterations)
+./scripts/ralph/ralph.sh
+
+# Run with custom iteration limit
+./scripts/ralph/ralph.sh --max-iterations 5
+
+# Use a custom prompt file
+./scripts/ralph/ralph.sh --prompt custom-prompt.md
+
+# Combine flags (order doesn't matter)
+./scripts/ralph/ralph.sh --prompt /path/to/prompt.md --max-iterations 20
+```
 
 Ralph will:
 1. Create a feature branch (from PRD `branchName`)
