@@ -38,3 +38,13 @@ Thread: https://ampcode.com/threads/T-019be2cf-c3d0-74cd-aee5-e0840eb5083f
   - Use `cat << EOF ... EOF` heredoc for multi-line help text (cleaner than multiple echo statements)
   - Place help case first in the switch for readability
 ---
+
+## 2026-01-21 14:35 - US-004
+Thread: https://ampcode.com/threads/T-019be2d1-bb9c-7016-8ee2-13bf635277e8
+- Updated README.md with CLI flags table, examples, and default values
+- Updated AGENTS.md with new flag syntax (was outdated positional arg)
+- Files changed: README.md, AGENTS.md
+- **Learnings for future iterations:**
+  - Remember to check AGENTS.md for outdated CLI usage when updating docs
+  - Use markdown tables for flag documentation (cleaner than bullet lists)
+---

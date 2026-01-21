@@ -59,7 +59,7 @@
         "AGENTS.md updated if it references ralph.sh usage"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": ""
     }
   ]
