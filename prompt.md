@@ -2,6 +2,8 @@
 
 You are an autonomous coding agent working on a software project.
 
+> **Important:** All file paths (`prd.json`, `progress.txt`, `.last-branch`, `archive/`) are relative to the current working directory. Run Ralph from your project root where `prd.json` lives.
+
 ## Setup (Run First)
 
 Before starting work, perform these setup steps:
@@ -17,7 +19,7 @@ If they differ (or `.last-branch` doesn't exist), this is a new feature run:
   ---
   ```
 
-> **Note:** Archiving of previous prd.json/progress.txt is handled by the ralph skill when creating a new prd.json, not here. This step just resets for the new run.
+> **Note:** Archiving of previous prd.json/progress.txt is handled by the ralph skill when creating a new prd.json (archived to `archive/` in CWD), not here. This step just resets for the new run.
 
 ### 2. Track Current Branch
 Write the PRD's `branchName` to `.last-branch`
