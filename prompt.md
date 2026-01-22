@@ -2,19 +2,44 @@
 
 You are an autonomous coding agent working on a software project.
 
+## Setup (Run First)
+
+Before starting work, perform these setup steps:
+
+### 1. Read PRD and Detect Branch Change
+Read `prd.json` and `.last-branch` (if it exists). Compare the PRD's `branchName` with `.last-branch`.
+
+If they differ (or `.last-branch` doesn't exist), this is a new feature run:
+- Reset `progress.txt` with a fresh header:
+  ```
+  # Ralph Progress Log
+  Started: [current date/time]
+  ---
+  ```
+
+> **Note:** Archiving of previous prd.json/progress.txt is handled by the ralph skill when creating a new prd.json, not here. This step just resets for the new run.
+
+### 2. Track Current Branch
+Write the PRD's `branchName` to `.last-branch`
+
+### 3. Initialize Progress File
+If `progress.txt` doesn't exist (and wasn't just reset above), create it with the same fresh header.
+
+### 4. Git Branch
+Check you're on the correct branch from PRD `branchName`. If not, check it out or create from main.
+
 ## Your Task
 
-1. Read the PRD at `prd.json` (in the same directory as this file)
+1. Read the PRD at `prd.json`
 2. Ensure Ralph working files are gitignored (add to `.gitignore` if missing): `prd.json`, `progress.txt`, `.last-branch`
 3. Read the progress log at `progress.txt` (check Codebase Patterns section first)
-4. Check you're on the correct branch from PRD `branchName`. If not, check it out or create from main.
-5. Pick the **highest priority** user story where `passes: false`
-6. Implement that single user story
-7. Run quality checks (e.g., typecheck, lint, test - use whatever your project requires)
-8. Update AGENTS.md files if you discover reusable patterns (see below)
-9. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
-10. Update the PRD to set `passes: true` for the completed story
-11. Append your progress to `progress.txt`
+4. Pick the **highest priority** user story where `passes: false`
+5. Implement that single user story
+6. Run quality checks (e.g., typecheck, lint, test - use whatever your project requires)
+7. Update AGENTS.md files if you discover reusable patterns (see below)
+8. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
+9. Update the PRD to set `passes: true` for the completed story
+10. Append your progress to `progress.txt`
 
 ## Progress Report Format
 
