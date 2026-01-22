@@ -2,7 +2,7 @@
 
 ![Ralph](ralph.webp)
 
-Ralph is an autonomous AI agent loop that runs [Amp](https://ampcode.com) repeatedly until all PRD items are complete. Each iteration is a fresh Amp instance with clean context. Memory persists via git history, `progress.txt`, and `prd.json`.
+Ralph is an autonomous AI agent loop that runs [Amp](https://ampcode.com) repeatedly until all PRD items are complete. Each iteration is a fresh Amp instance with clean context. Memory persists via git history, `.ralph/progress.txt`, and `.ralph/prd.json`.
 
 Based on [Geoffrey Huntley's Ralph pattern](https://ghuntley.com/ralph/).
 
@@ -39,7 +39,7 @@ cp -r skills/ralph ~/.config/amp/skills/
 
 ### Add Ralph files to .gitignore
 
-Add `prd.json`, `progress.txt`, and `.last-branch` to your `.gitignore`.
+Add `.ralph/` to your `.gitignore` (this covers `prd.json`, `progress.txt`, `.last-branch`, and `archive/`).
 
 ### Configure Amp auto-handoff (recommended)
 
@@ -73,7 +73,7 @@ Use the Ralph skill to convert the markdown PRD to JSON:
 Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
 ```
 
-This creates `prd.json` with user stories structured for autonomous execution.
+This creates `.ralph/prd.json` with user stories structured for autonomous execution.
 
 ### 3. Run Ralph
 
@@ -107,13 +107,13 @@ This creates `prd.json` with user stories structured for autonomous execution.
 
 Ralph will:
 1. Create a feature branch (from PRD `branchName`)
-2. Ensure Ralph working files are gitignored (`prd.json`, `progress.txt`, `.last-branch`)
+2. Ensure `.ralph/` is gitignored
 3. Pick the highest priority story where `passes: false`
 4. Implement that single story
 5. Run quality checks (typecheck, tests)
 6. Commit if checks pass
-7. Update `prd.json` to mark story as `passes: true` (not committed - gitignored)
-8. Append learnings to `progress.txt` (not committed - gitignored)
+7. Update `.ralph/prd.json` to mark story as `passes: true` (not committed - gitignored)
+8. Append learnings to `.ralph/progress.txt` (not committed - gitignored)
 9. Repeat until all stories pass or max iterations reached
 
 ## Key Files
@@ -122,9 +122,11 @@ Ralph will:
 |------|---------|
 | `ralph.sh` | The bash loop that spawns fresh Amp instances |
 | `prompt.md` | Instructions given to each Amp instance |
-| `prd.json` | User stories with `passes` status (the task list) |
+| `.ralph/prd.json` | User stories with `passes` status (the task list) |
+| `.ralph/progress.txt` | Append-only learnings for future iterations |
+| `.ralph/.last-branch` | Tracks current feature branch |
+| `.ralph/archive/` | Archives of completed feature runs |
 | `prd.json.example` | Example PRD format for reference |
-| `progress.txt` | Append-only learnings for future iterations |
 | `skills/prd/` | Skill for generating PRDs |
 | `skills/ralph/` | Skill for converting PRDs to JSON |
 | `flowchart/` | Interactive visualization of how Ralph works |
@@ -149,8 +151,8 @@ npm run dev
 
 Each iteration spawns a **new Amp instance** with clean context. The only memory between iterations is:
 - Git history (commits from previous iterations)
-- `progress.txt` (learnings and context)
-- `prd.json` (which stories are done)
+- `.ralph/progress.txt` (learnings and context)
+- `.ralph/prd.json` (which stories are done)
 
 ### Small Tasks
 
@@ -197,10 +199,10 @@ Check current state:
 
 ```bash
 # See which stories are done
-cat prd.json | jq '.userStories[] | {id, title, passes}'
+cat .ralph/prd.json | jq '.userStories[] | {id, title, passes}'
 
 # See learnings from previous iterations
-cat progress.txt
+cat .ralph/progress.txt
 
 # Check git history
 git log --oneline -10
@@ -215,7 +217,7 @@ Edit `prompt.md` to customize Ralph's behavior for your project:
 
 ## Archiving
 
-Ralph automatically archives previous runs when you start a new feature (different `branchName`). Archives are saved to `archive/YYYY-MM-DD-feature-name/`.
+Ralph automatically archives previous runs when you start a new feature (different `branchName`). Archives are saved to `.ralph/archive/YYYY-MM-DD-feature-name/`.
 
 ## References
 
