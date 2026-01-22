@@ -42,6 +42,8 @@ Check you're on the correct branch from PRD `branchName`. If not, check it out o
 8. Update the PRD to set `passes: true` for the completed story
 9. Append your progress to `progress.txt`
 
+Note: `prd.json`, `progress.txt` are ralph state files - do not commit them.
+
 ## Progress Report Format
 
 APPEND to progress.txt (never replace, always append):
