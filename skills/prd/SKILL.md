@@ -88,6 +88,7 @@ Each story should be small enough to implement in one focused session.
 **Important:** 
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
 - **For any story with UI changes:** Always include "Verify in browser using dev-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
+- **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria. These incentivize over-optimization and can cause agents to make unrelated harmful changes to hit the number. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
 
 ### 4. Functional Requirements
 Numbered list of specific functionalities:

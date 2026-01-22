@@ -14,7 +14,10 @@ cd flowchart && npm run dev
 cd flowchart && npm run build
 
 # Run Ralph (from your project that has prd.json)
-./ralph.sh [max_iterations]
+./ralph.sh [OPTIONS]
+#   --prompt <file>         Path to prompt file (default: prompt.md in script directory)
+#   --max-iterations <n>    Maximum iterations (default: 10)
+#   -h, --help              Show help
 ```
 
 ## Key Files
