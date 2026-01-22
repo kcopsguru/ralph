@@ -37,6 +37,10 @@ cp -r skills/prd ~/.config/amp/skills/
 cp -r skills/ralph ~/.config/amp/skills/
 ```
 
+### Add Ralph files to .gitignore
+
+Add `prd.json`, `progress.txt`, and `.last-branch` to your `.gitignore`.
+
 ### Configure Amp auto-handoff (recommended)
 
 Add to `~/.config/amp/settings.json`:
