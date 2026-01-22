@@ -63,6 +63,12 @@ if [ ! -f "$PROMPT_FILE" ]; then
   echo "Error: Prompt file not found: $PROMPT_FILE" >&2
   exit 1
 fi
+# Check for .ralph/prd.json
+if [ ! -f ".ralph/prd.json" ]; then
+  echo "Error: .ralph/prd.json not found. Run from your project root where .ralph/prd.json lives." >&2
+  exit 1
+fi
+
 echo "Starting Ralph - Max iterations: $MAX_ITERATIONS"
 
 for i in $(seq 1 $MAX_ITERATIONS); do
@@ -88,5 +94,5 @@ done
 
 echo ""
 echo "Ralph reached max iterations ($MAX_ITERATIONS) without completing all tasks."
-echo "Check progress.txt for status."
+echo "Check .ralph/progress.txt for status."
 exit 1
