@@ -13,7 +13,7 @@ cd flowchart && npm run dev
 # Build the flowchart
 cd flowchart && npm run build
 
-# Run Ralph (from your project that has prd.json)
+# Run Ralph (from your project that has .ralph/prd.json)
 ./ralph.sh [OPTIONS]
 #   --prompt <file>         Path to prompt file (default: prompt.md in script directory)
 #   --max-iterations <n>    Maximum iterations (default: 10)
@@ -41,6 +41,6 @@ npm run dev
 ## Patterns
 
 - Each iteration spawns a fresh Amp instance with clean context
-- Memory persists via git history, `progress.txt`, and `prd.json`
+- Memory persists via git history, `.ralph/progress.txt`, and `.ralph/prd.json`
 - Stories should be small enough to complete in one context window
 - Always update AGENTS.md with discovered patterns for future iterations

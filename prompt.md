@@ -2,49 +2,51 @@
 
 You are an autonomous coding agent working on a software project.
 
-> **Important:** All file paths (`prd.json`, `progress.txt`, `.last-branch`, `archive/`) are relative to the current working directory. Run Ralph from your project root where `prd.json` lives.
+> **Important:** All file paths (`.ralph/prd.json`, `.ralph/progress.txt`, `.ralph/.last-branch`, `.ralph/archive/`) are relative to the current working directory. Run Ralph from your project root where `.ralph/prd.json` lives.
 
 ## Setup (Run First)
 
 Before starting work, perform these setup steps:
 
 ### 1. Read PRD and Detect Branch Change
-Read `prd.json` and `.last-branch` (if it exists). Compare the PRD's `branchName` with `.last-branch`.
+Read `.ralph/prd.json` and `.ralph/.last-branch` (if it exists). Compare the PRD's `branchName` with `.ralph/.last-branch`.
 
-If they differ (or `.last-branch` doesn't exist), this is a new feature run:
-- Reset `progress.txt` with a fresh header:
+If they differ (or `.ralph/.last-branch` doesn't exist), this is a new feature run:
+- Reset `.ralph/progress.txt` with a fresh header:
   ```
   # Ralph Progress Log
   Started: [current date/time]
   ---
   ```
 
-> **Note:** Archiving of previous prd.json/progress.txt is handled by the ralph skill when creating a new prd.json (archived to `archive/` in CWD), not here. This step just resets for the new run.
+> **Note:** Archiving of previous .ralph/prd.json and .ralph/progress.txt is handled by the ralph skill when creating a new prd.json (archived to `.ralph/archive/`), not here. This step just resets for the new run.
 
 ### 2. Track Current Branch
-Write the PRD's `branchName` to `.last-branch`
+Write the PRD's `branchName` to `.ralph/.last-branch`
 
 ### 3. Initialize Progress File
-If `progress.txt` doesn't exist (and wasn't just reset above), create it with the same fresh header.
+If `.ralph/progress.txt` doesn't exist (and wasn't just reset above), create it with the same fresh header.
 
 ### 4. Git Branch
 Check you're on the correct branch from PRD `branchName`. If not, check it out or create from main.
 
 ## Your Task
 
-1. Read the PRD at `prd.json`
-2. Read the progress log at `progress.txt` (check Codebase Patterns section first)
+1. Read the PRD at `.ralph/prd.json`
+2. Read the progress log at `.ralph/progress.txt` (check Codebase Patterns section first)
 3. Pick the **highest priority** user story where `passes: false`
 4. Implement that single user story
 5. Run quality checks (e.g., typecheck, lint, test - use whatever your project requires)
 6. Update AGENTS.md files if you discover reusable patterns (see below)
 7. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
 8. Update the PRD to set `passes: true` for the completed story
-9. Append your progress to `progress.txt`
+9. Append your progress to `.ralph/progress.txt`
+
+Note: `.ralph/prd.json`, `.ralph/progress.txt` are ralph state files - do not commit them.
 
 ## Progress Report Format
 
-APPEND to progress.txt (never replace, always append):
+APPEND to .ralph/progress.txt (never replace, always append):
 ```
 ## [Date/Time] - [Story ID]
 Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
@@ -63,7 +65,7 @@ The learnings section is critical - it helps future iterations avoid repeating m
 
 ## Consolidate Patterns
 
-If you discover a **reusable pattern** that future iterations should know, add it to the `## Codebase Patterns` section at the TOP of progress.txt (create it if it doesn't exist). This section should consolidate the most important learnings:
+If you discover a **reusable pattern** that future iterations should know, add it to the `## Codebase Patterns` section at the TOP of .ralph/progress.txt (create it if it doesn't exist). This section should consolidate the most important learnings:
 
 ```
 ## Codebase Patterns
@@ -96,7 +98,7 @@ Before committing, check if any edited files have learnings worth preserving in 
 **Do NOT add:**
 - Story-specific implementation details
 - Temporary debugging notes
-- Information already in progress.txt
+- Information already in .ralph/progress.txt
 
 Only update AGENTS.md if you have **genuinely reusable knowledge** that would help future work in that directory.
 
@@ -132,4 +134,4 @@ If there are still stories with `passes: false`, end your response normally (ano
 - Work on ONE story per iteration
 - Commit frequently
 - Keep CI green
-- Read the Codebase Patterns section in progress.txt before starting
+- Read the Codebase Patterns section in .ralph/progress.txt before starting
