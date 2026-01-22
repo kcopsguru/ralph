@@ -11,7 +11,7 @@ Converts existing PRDs to the prd.json format that Ralph uses for autonomous exe
 
 ## The Job
 
-Take a PRD (markdown file or text) and convert it to `prd.json` in your ralph directory.
+Take a PRD (markdown file or text) and convert it to `.ralph/prd.json` in your project directory. The `.ralph/` directory keeps all Ralph state files organized and out of your project root.
 
 ---
 
@@ -231,19 +231,20 @@ Add ability to mark tasks with different statuses.
 
 ## Archiving Previous Runs (REQUIRED)
 
-**Before writing a new prd.json, you MUST archive any existing run:**
+**Before writing a new `.ralph/prd.json`, you MUST archive any existing run:**
 
-1. Check if `prd.json` exists in the current directory
+1. Check if `.ralph/prd.json` exists
 2. If it exists:
    - Read its `branchName`
    - If different from the new feature's branch name:
      - Extract feature name from old branchName (strip `ralph/` prefix)
-     - Create archive folder: `archive/YYYY-MM-DD-feature-name/`
-     - Copy `prd.json` to archive folder
-     - Copy `progress.txt` to archive folder (if it exists)
-     - Copy `.last-branch` to archive folder (if it exists)
-     - Delete `progress.txt` and `.last-branch` from working directory
-3. Only AFTER archiving, write the new `prd.json`
+     - Create archive folder: `.ralph/archive/YYYY-MM-DD-feature-name/`
+     - Copy `.ralph/prd.json` to archive folder
+     - Copy `.ralph/progress.txt` to archive folder (if it exists)
+     - Copy `.ralph/.last-branch` to archive folder (if it exists)
+     - Delete `.ralph/progress.txt` and `.ralph/.last-branch` from `.ralph/`
+3. Only AFTER archiving, write the new `.ralph/prd.json`
+4. Create the `.ralph/` directory if it doesn't exist
 
 **This is mandatory.** The prompt.md file does NOT handle archiving - it expects the skill to have done this already.
 
@@ -251,9 +252,10 @@ Add ability to mark tasks with different statuses.
 
 ## Checklist Before Saving
 
-Before writing prd.json, verify:
+Before writing `.ralph/prd.json`, verify:
 
-- [ ] **Previous run archived** (if prd.json exists with different branchName, you MUST archive it first - see Archiving section)
+- [ ] **`.ralph/` directory exists** (create if needed)
+- [ ] **Previous run archived** (if `.ralph/prd.json` exists with different branchName, you MUST archive it first - see Archiving section)
 - [ ] Each story is completable in one iteration (small enough)
 - [ ] Stories are ordered by dependency (schema to backend to UI)
 - [ ] Every story has "Typecheck passes" as criterion
