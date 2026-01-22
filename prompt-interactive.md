@@ -6,28 +6,24 @@ You are an autonomous coding agent working on a software project. This is a sing
 
 Before starting work, perform these setup steps:
 
-### 1. Read PRD and Check for Branch Change
-Read `prd.json` and `.last-branch` (if it exists). Compare the PRD's `branchName` with the contents of `.last-branch`.
+### 1. Read PRD and Detect Branch Change
+Read `prd.json` and `.last-branch` (if it exists). Compare the PRD's `branchName` with `.last-branch`.
 
-If they differ AND both files exist:
-- Archive the previous run by copying `prd.json` and `progress.txt` to `archive/[YYYY-MM-DD]-[branch-name]/` (strip `ralph/` prefix from branch name)
-- Reset `progress.txt` with:
+If they differ (or `.last-branch` doesn't exist), this is a new feature run:
+- Reset `progress.txt` with a fresh header:
   ```
   # Ralph Progress Log
   Started: [current date/time]
   ---
   ```
 
+> **Note:** Archiving of previous prd.json/progress.txt is handled by the ralph skill when creating a new prd.json, not here. This step just resets for the new run.
+
 ### 2. Track Current Branch
 Write the PRD's `branchName` to `.last-branch`
 
 ### 3. Initialize Progress File
-If `progress.txt` doesn't exist, create it with:
-```
-# Ralph Progress Log
-Started: [current date/time]
----
-```
+If `progress.txt` doesn't exist (and wasn't just reset above), create it with the same fresh header.
 
 ### 4. Git Branch
 Check you're on the correct branch from PRD `branchName`. If not, check it out or create from main.

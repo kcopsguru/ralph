@@ -229,18 +229,23 @@ Add ability to mark tasks with different statuses.
 
 ---
 
-## Archiving Previous Runs
+## Archiving Previous Runs (REQUIRED)
 
-**Before writing a new prd.json, check if there is an existing one from a different feature:**
+**Before writing a new prd.json, you MUST archive any existing run:**
 
-1. Read the current `prd.json` if it exists
-2. Check if `branchName` differs from the new feature's branch name
-3. If different AND `progress.txt` has content beyond the header:
-   - Create archive folder: `archive/YYYY-MM-DD-feature-name/`
-   - Copy current `prd.json` and `progress.txt` to archive
-   - Reset `progress.txt` with fresh header
+1. Check if `prd.json` exists in the current directory
+2. If it exists:
+   - Read its `branchName`
+   - If different from the new feature's branch name:
+     - Extract feature name from old branchName (strip `ralph/` prefix)
+     - Create archive folder: `archive/YYYY-MM-DD-feature-name/`
+     - Copy `prd.json` to archive folder
+     - Copy `progress.txt` to archive folder (if it exists)
+     - Copy `.last-branch` to archive folder (if it exists)
+     - Delete `progress.txt` and `.last-branch` from working directory
+3. Only AFTER archiving, write the new `prd.json`
 
-**The ralph.sh script handles this automatically** when you run it, but if you are manually updating prd.json between runs, archive first.
+**This is mandatory.** The prompt.md file does NOT handle archiving - it expects the skill to have done this already.
 
 ---
 
@@ -248,7 +253,7 @@ Add ability to mark tasks with different statuses.
 
 Before writing prd.json, verify:
 
-- [ ] **Previous run archived** (if prd.json exists with different branchName, archive it first)
+- [ ] **Previous run archived** (if prd.json exists with different branchName, you MUST archive it first - see Archiving section)
 - [ ] Each story is completable in one iteration (small enough)
 - [ ] Stories are ordered by dependency (schema to backend to UI)
 - [ ] Every story has "Typecheck passes" as criterion
