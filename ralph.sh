@@ -9,6 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Defaults
 MAX_ITERATIONS=10
 PROMPT_FILE="$SCRIPT_DIR/prompt.md"
+TOOL="amp"
 
 # Help function
 show_help() {
@@ -20,10 +21,12 @@ Usage: ./ralph.sh [OPTIONS]
 Options:
   --prompt <file>         Path to prompt file (default: prompt.md in script directory)
   --max-iterations <n>    Maximum number of iterations (default: 10)
+  --tool <tool>           CLI tool to use: amp or cursor (default: amp)
   -h, --help              Show this help message and exit
 
 Examples:
-  ./ralph.sh                                    # Use defaults
+  ./ralph.sh                                    # Use defaults (amp)
+  ./ralph.sh --tool cursor                      # Use Cursor CLI instead of amp
   ./ralph.sh --max-iterations 5                 # Run max 5 iterations
   ./ralph.sh --prompt custom.md                 # Use custom prompt file
   ./ralph.sh --prompt /path/to/file.md --max-iterations 20
@@ -45,6 +48,10 @@ while [[ $# -gt 0 ]]; do
       MAX_ITERATIONS="$2"
       shift 2
       ;;
+    --tool)
+      TOOL="$2"
+      shift 2
+      ;;
     *)
       echo "Error: Unknown option: $1" >&2
       exit 1
@@ -55,6 +62,12 @@ done
 # Validate max-iterations is a positive integer
 if ! [[ "$MAX_ITERATIONS" =~ ^[1-9][0-9]*$ ]]; then
   echo "Error: --max-iterations must be a positive integer, got: $MAX_ITERATIONS" >&2
+  exit 1
+fi
+
+# Validate tool value
+if [[ "$TOOL" != "amp" && "$TOOL" != "cursor" ]]; then
+  echo "Error: --tool must be 'amp' or 'cursor', got: $TOOL" >&2
   exit 1
 fi
 
