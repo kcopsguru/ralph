@@ -17,7 +17,11 @@ cd flowchart && npm run build
 ./ralph.sh [OPTIONS]
 #   --prompt <file>         Path to prompt file (default: prompt.md in script directory)
 #   --max-iterations <n>    Maximum iterations (default: 10)
+#   --tool <tool>           CLI tool to use: amp or cursor (default: amp)
 #   -h, --help              Show help
+
+# Run Ralph with Cursor CLI instead of amp
+./ralph.sh --tool cursor
 ```
 
 ## Key Files
