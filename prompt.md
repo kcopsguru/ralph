@@ -35,12 +35,13 @@ Check you're on the correct branch from PRD `branchName`. If not, check it out o
 1. Read the PRD at `.ralph/prd.json`
 2. Read the progress log at `.ralph/progress.txt` (check Codebase Patterns section first)
 3. Pick the **highest priority** user story where `passes: false`
-4. Implement that single user story
-5. Run quality checks (e.g., typecheck, lint, test - use whatever your project requires)
-6. Update AGENTS.md files if you discover reusable patterns (see below)
-7. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
-8. Update the PRD to set `passes: true` for the completed story
-9. Append your progress to `.ralph/progress.txt`
+4. Review that single user story and all of its requirements
+5. Write additional quality checks based on the story's acceptance criteria if applicable
+6. Implement that single user story
+7. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
+8. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
+9. Update the PRD to set `passes: true` for the completed story
+10. Append your progress to `.ralph/progress.txt`
 
 Note: `.ralph/prd.json`, `.ralph/progress.txt` are ralph state files - do not commit them.
 
@@ -76,35 +77,10 @@ If you discover a **reusable pattern** that future iterations should know, add i
 
 Only add patterns that are **general and reusable**, not story-specific details.
 
-## Update AGENTS.md Files
-
-Before committing, check if any edited files have learnings worth preserving in nearby AGENTS.md files:
-
-1. **Identify directories with edited files** - Look at which directories you modified
-2. **Check for existing AGENTS.md** - Look for AGENTS.md in those directories or parent directories
-3. **Add valuable learnings** - If you discovered something future developers/agents should know:
-   - API patterns or conventions specific to that module
-   - Gotchas or non-obvious requirements
-   - Dependencies between files
-   - Testing approaches for that area
-   - Configuration or environment requirements
-
-**Examples of good AGENTS.md additions:**
-- "When modifying X, also update Y to keep them in sync"
-- "This module uses pattern Z for all API calls"
-- "Tests require the dev server running on PORT 3000"
-- "Field names must match the template exactly"
-
-**Do NOT add:**
-- Story-specific implementation details
-- Temporary debugging notes
-- Information already in .ralph/progress.txt
-
-Only update AGENTS.md if you have **genuinely reusable knowledge** that would help future work in that directory.
-
 ## Quality Requirements
 
 - ALL commits must pass your project's quality checks (typecheck, lint, test)
+- Write new quality checks before the actual implemetation when applicable (i.e. adding a new feature)
 - Do NOT commit broken code
 - Keep changes focused and minimal
 - Follow existing code patterns
@@ -133,5 +109,6 @@ If there are still stories with `passes: false`, end your response normally (ano
 
 - Work on ONE story per iteration
 - Commit frequently
+- Run quality checks for validation
 - Keep CI green
 - Read the Codebase Patterns section in .ralph/progress.txt before starting
