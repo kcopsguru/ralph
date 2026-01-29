@@ -10,7 +10,7 @@ Based on [Geoffrey Huntley's Ralph pattern](https://ghuntley.com/ralph/).
 
 ## Prerequisites
 
-- [Amp CLI](https://ampcode.com) installed and authenticated
+- [Amp CLI](https://ampcode.com) installed and authenticated, OR [Cursor CLI](https://www.cursor.com/cli) (`agent` command)
 - `jq` installed (`brew install jq` on macOS)
 - A git repository for your project
 
@@ -87,13 +87,17 @@ This creates `.ralph/prd.json` with user stories structured for autonomous execu
 |------|-------------|---------|
 | `--prompt <file>` | Path to prompt file | `prompt.md` in script directory |
 | `--max-iterations <n>` | Maximum iterations to run | `10` |
+| `--tool <tool>` | CLI tool to use: `amp` or `cursor` | `amp` |
 | `-h`, `--help` | Show help message | - |
 
 **Examples:**
 
 ```bash
-# Run with defaults (prompt.md, 10 iterations)
+# Run with defaults (amp tool, prompt.md, 10 iterations)
 ./scripts/ralph/ralph.sh
+
+# Use Cursor CLI instead of amp
+./scripts/ralph/ralph.sh --tool cursor
 
 # Run with custom iteration limit
 ./scripts/ralph/ralph.sh --max-iterations 5
@@ -102,7 +106,7 @@ This creates `.ralph/prd.json` with user stories structured for autonomous execu
 ./scripts/ralph/ralph.sh --prompt custom-prompt.md
 
 # Combine flags (order doesn't matter)
-./scripts/ralph/ralph.sh --prompt /path/to/prompt.md --max-iterations 20
+./scripts/ralph/ralph.sh --tool cursor --prompt /path/to/prompt.md --max-iterations 20
 ```
 
 Ralph will:
