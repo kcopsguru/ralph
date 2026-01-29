@@ -94,9 +94,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   if [[ "$TOOL" == "amp" ]]; then
     OUTPUT=$(cat "$PROMPT_FILE" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
   elif [[ "$TOOL" == "cursor" ]]; then
-    # TODO: Implement cursor execution in US-003
-    echo "Error: cursor tool not yet implemented" >&2
-    exit 1
+    OUTPUT=$(agent -p --model "opus-4.5-thinking" "$(cat "$PROMPT_FILE")" 2>&1 | tee /dev/stderr) || true
   fi
   
   # Check for completion signal
