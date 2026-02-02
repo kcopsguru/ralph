@@ -23,6 +23,7 @@ Take a PRD (markdown file or text) and convert it to `.ralph/prd.json` in your p
   "project": "[Project Name]",
   "branchName": "ralph/[feature-name-kebab-case]",
   "description": "[Feature description from PRD title/intro]",
+  "reference": "[Path to the original PRD file]",
   "userStories": [
     {
       "id": "US-001",

@@ -33,15 +33,16 @@ Check you're on the correct branch from PRD `branchName`. If not, check it out o
 ## Your Task
 
 1. Read the PRD at `.ralph/prd.json`
-2. Read the progress log at `.ralph/progress.txt` (check Codebase Patterns section first)
-3. Pick the **highest priority** user story where `passes: false`
-4. Review that single user story and all of its requirements
-5. Write additional quality checks based on the story's acceptance criteria if applicable
-6. Implement that single user story
-7. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
-8. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
-9. Update the PRD to set `passes: true` for the completed story
-10. Append your progress to `.ralph/progress.txt`
+2. Read the original PRD located in the `reference` field for additional context if required
+3. Read the progress log at `.ralph/progress.txt` (check Codebase Patterns section first)
+4. Pick the **highest priority** user story where `passes: false`
+5. Review that single user story and all of its requirements
+6. Write additional quality checks based on the story's acceptance criteria if applicable
+7. Implement that single user story
+8. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
+9. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
+10. Update the PRD to set `passes: true` for the completed story
+11. Append your progress to `.ralph/progress.txt`
 
 Note: `.ralph/prd.json`, `.ralph/progress.txt` are ralph state files - do not commit them.
 
