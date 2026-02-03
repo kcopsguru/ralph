@@ -1,12 +1,26 @@
 ---
 name: ralph-code-review
-description: "Review code changes against PRD requirements and add fix stories to prd.json. Use when feature implementation is complete and needs review. Triggers on: review code, ralph code review, check implementation, validate against prd."
+description: "Reviews code changes against PRD requirements and adds fix stories to prd.json. Activates when feature implementation is complete and needs review before merging. Triggers on: review code, ralph code review, check implementation, validate against prd."
 disable-model-invocation: true
 ---
 
 # Ralph Code Review
 
 Review code changes on a feature branch against PRD requirements. Identify issues and add them as new stories to `.ralph/prd.json`.
+
+## Progress Checklist
+
+Copy and track your progress:
+```
+Code Review Progress:
+- [ ] Step 1: Gather reference files
+- [ ] Step 2: Verify branch
+- [ ] Step 3: Run automated checks
+- [ ] Step 4: Review code (skip if checks failed)
+- [ ] Step 5: Interactive review with user
+- [ ] Step 6: Convert confirmed issues to stories
+- [ ] Step 7: Update prd.json
+```
 
 ## Workflow
 
