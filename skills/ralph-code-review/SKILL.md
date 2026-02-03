@@ -24,7 +24,46 @@ Review all code changes on a feature branch against PRD requirements and project
 
 ## Step 1: Gather Reference Files
 
-<!-- TODO: Document reference file discovery (US-002) -->
+Gather all relevant documentation before starting the review. This provides context for validating implementation against requirements.
+
+### Required Files
+
+1. **`.ralph/prd.json`** - Read for user stories and acceptance criteria
+   - Contains the structured list of stories to validate against
+   - Each story has `acceptanceCriteria` that must be verified
+
+2. **Original PRD** - Read from the `reference` field in `.ralph/prd.json`
+   - Example: if `"reference": "tasks/prd-my-feature.md"`, read that file
+   - Provides detailed context, goals, and functional requirements
+
+### Optional Files
+
+3. **`README.md`** - Read if present in project root
+   - Provides project context and existing conventions
+
+4. **`docs/` folder** - Check if exists in project root
+   - If present, scan for relevant documentation files
+   - Read files that may inform the review (architecture, API docs, etc.)
+
+### If No docs/ Folder
+
+If the `docs/` folder doesn't exist, prompt the user:
+
+```
+No docs/ folder found. Are there additional documentation files 
+I should review for context?
+
+Please provide paths to any relevant documentation, or type 
+"none" to proceed with .ralph/prd.json and README.md only.
+```
+
+### Reference Files Checklist
+
+- [ ] Read `.ralph/prd.json`
+- [ ] Read original PRD from `reference` field
+- [ ] Read `README.md` if present
+- [ ] Check for `docs/` folder and read relevant files
+- [ ] If no `docs/` folder, ask user for additional documentation paths
 
 ---
 
