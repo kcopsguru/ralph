@@ -220,6 +220,10 @@ When adding fix stories for automated check failures:
     "npm run typecheck passes with no errors"
   ],
   "priority": 1,
+  "category": "Automated Check Failure",
+  "severity": "Critical",
+  "files": ["src/utils.ts"],
+  "relatedStory": null,
   "passes": false,
   "notes": "Critical: blocks all other work"
 }
@@ -558,6 +562,10 @@ Each confirmed issue becomes a story with this structure:
     "Form submission is blocked until email is valid"
   ],
   "priority": 1,
+  "category": "Requirements Deviation",
+  "severity": "Critical",
+  "files": ["src/components/LoginForm.tsx"],
+  "relatedStory": "US-002",
   "passes": false,
   "notes": ""
 }
@@ -617,6 +625,10 @@ Example with 3 issues (starting after US-010):
     "npm run typecheck passes with no errors"
   ],
   "priority": 1,
+  "category": "Automated Check Failure",
+  "severity": "Critical",
+  "files": ["src/utils/parser.ts"],
+  "relatedStory": "US-005",
   "passes": false,
   "notes": ""
 }
@@ -635,6 +647,10 @@ Example with 3 issues (starting after US-010):
     "Submit button is disabled until email format is valid"
   ],
   "priority": 2,
+  "category": "Requirements Deviation",
+  "severity": "Critical",
+  "files": ["src/components/LoginForm.tsx"],
+  "relatedStory": "US-002",
   "passes": false,
   "notes": ""
 }
@@ -654,6 +670,10 @@ Example with 3 issues (starting after US-010):
     "Error behavior remains identical (no functional changes)"
   ],
   "priority": 3,
+  "category": "Code Quality Issue",
+  "severity": "Major",
+  "files": ["src/api/users.ts", "src/api/posts.ts"],
+  "relatedStory": null,
   "passes": false,
   "notes": ""
 }
@@ -672,6 +692,10 @@ Example with 3 issues (starting after US-010):
     "Add JSDoc comment explaining the function's purpose"
   ],
   "priority": 4,
+  "category": "Code Quality Issue",
+  "severity": "Minor",
+  "files": ["src/helpers/format.ts"],
+  "relatedStory": null,
   "passes": false,
   "notes": ""
 }
@@ -688,6 +712,10 @@ All new stories MUST have:
 | `description` | "As a developer, I need to..." format |
 | `acceptanceCriteria` | Array with specific, verifiable criteria |
 | `priority` | Number based on severity (lower = higher priority) |
+| `category` | `"Automated Check Failure"`, `"Requirements Deviation"`, or `"Code Quality Issue"` |
+| `severity` | `"Critical"`, `"Major"`, or `"Minor"` |
+| `files` | Array of file paths affected by this issue |
+| `relatedStory` | Story ID (e.g., `"US-002"`) or `null` if not related to an existing story |
 | `passes` | `false` (always) |
 | `notes` | `""` (always empty) |
 
@@ -1049,6 +1077,10 @@ This serves as a backup verification—the user can confirm the change is expect
         "Invalid email shows error message"
       ],
       "priority": 1,
+      "category": "Requirements Deviation",
+      "severity": "Critical",
+      "files": ["src/components/LoginForm.tsx"],
+      "relatedStory": "US-002",
       "passes": false,
       "notes": ""
     },
@@ -1062,6 +1094,10 @@ This serves as a backup verification—the user can confirm the change is expect
         "No duplicate validation regex in codebase"
       ],
       "priority": 2,
+      "category": "Code Quality Issue",
+      "severity": "Major",
+      "files": ["src/components/LoginForm.tsx", "src/components/SignupForm.tsx"],
+      "relatedStory": null,
       "passes": false,
       "notes": ""
     }
