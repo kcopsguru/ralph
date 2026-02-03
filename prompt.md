@@ -90,7 +90,7 @@ Only add patterns that are **general and reusable**, not story-specific details.
 
 For any story that changes UI, you MUST verify it works in the browser:
 
-1. Load the `dev-browser` skill
+1. Load the `/agent-browser` skill
 2. Navigate to the relevant page
 3. Verify the UI changes work as expected
 4. Take a screenshot if helpful for the progress log
@@ -105,6 +105,11 @@ If ALL stories are complete and passing, reply with:
 <promise>COMPLETE</promise>
 
 If there are still stories with `passes: false`, end your response normally (another iteration will pick up the next story).
+
+## Development Principles
+
+- DO NOT REPEAT YOURSELF (DRY). Avoid duplicated code! NO EXCEPTION!!!
+- Less code is always better. Use minimum amount of code to satisfy the acceptance criteria. DO NOT OVERENGINEER!!!
 
 ## Important
 

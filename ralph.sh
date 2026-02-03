@@ -94,7 +94,10 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   if [[ "$TOOL" == "amp" ]]; then
     OUTPUT=$(cat "$PROMPT_FILE" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
   elif [[ "$TOOL" == "cursor" ]]; then
-    OUTPUT=$(agent -p --model "opus-4.5-thinking" "$(cat "$PROMPT_FILE")" 2>&1 | tee /dev/stderr) || true
+    # --sandbox enabled: restricts file access to workspace only
+    # --workspace: explicitly sets workspace to current directory
+    # -f: auto-approve commands (within sandbox restrictions)
+    OUTPUT=$(agent -p -f --sandbox enabled --approve-mcps --workspace "$(pwd)" --model "opus-4.5-thinking" "$(cat "$PROMPT_FILE")" 2>&1 | tee /dev/stderr) || true
   fi
   
   # Check for completion signal
