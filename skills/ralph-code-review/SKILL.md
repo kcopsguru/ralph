@@ -264,7 +264,91 @@ Example: npm run typecheck && npm run lint && npm test
 
 ## Step 4: Identify Changed Files
 
-<!-- TODO: Document git diff for code review scope (US-005) -->
+**Prerequisite:** This step only runs if automated checks pass (Step 3). If automated checks failed, you should have already added fix stories and prompted the user to run the dev loop.
+
+Identify all code changes between the feature branch and `main` to scope the manual review. Only changed files are reviewed—not the entire codebase.
+
+### Get Changed Files
+
+Use `git diff` with the three-dot syntax to compare the feature branch against `main`:
+
+```bash
+# List all files changed between main and current HEAD
+git diff --name-only main...HEAD
+```
+
+This shows files that have been added, modified, or deleted on the feature branch since it diverged from `main`.
+
+### Get Detailed Changes
+
+To see the actual code changes for review:
+
+```bash
+# Show full diff of all changes
+git diff main...HEAD
+
+# Show diff for a specific file
+git diff main...HEAD -- path/to/file.ts
+
+# Show diff with more context lines (useful for understanding changes)
+git diff -U10 main...HEAD
+```
+
+### Understanding the Three-Dot Syntax
+
+- **`main...HEAD`** compares the feature branch to where it diverged from `main`
+- This is different from **`main..HEAD`** (two dots) which would include changes in `main` that aren't in your branch
+- Three-dot syntax ensures you review only the feature branch changes, not unrelated `main` commits
+
+### Filter by File Type
+
+If the project is large, you may want to focus on specific file types:
+
+```bash
+# Only TypeScript/JavaScript files
+git diff --name-only main...HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx'
+
+# Only Python files
+git diff --name-only main...HEAD -- '*.py'
+
+# Exclude test files for initial review
+git diff --name-only main...HEAD | grep -v '__tests__\|\.test\.\|\.spec\.'
+```
+
+### Check for Uncommitted Changes
+
+Before reviewing, ensure all changes are committed:
+
+```bash
+# Check for uncommitted changes
+git status --porcelain
+```
+
+If there are uncommitted changes, prompt the user:
+```
+WARNING: You have uncommitted changes. These won't be included in the review.
+
+Do you want to:
+1. Commit changes first (recommended)
+2. Continue reviewing only committed changes
+3. Cancel and address uncommitted changes
+
+Choose (1/2/3):
+```
+
+### Why Only Changed Files
+
+- **Focused review:** Reviewing the entire codebase would be overwhelming and inefficient
+- **Relevant context:** Only files touched by the feature need validation against the PRD
+- **Efficient iterations:** Each review cycle focuses on what changed, not everything
+- **Clear scope:** Git provides an objective, reproducible list of changes
+
+### Changed Files Checklist
+
+- [ ] Automated checks passed (Step 3)
+- [ ] Retrieved list of changed files with `git diff --name-only main...HEAD`
+- [ ] Verified no uncommitted changes (or user acknowledged them)
+- [ ] Ready to proceed to Step 5 (Review and Identify Issues)
 
 ---
 
