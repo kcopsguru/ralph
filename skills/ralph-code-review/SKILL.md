@@ -132,7 +132,133 @@ Before reviewing code, verify you're on the correct feature branch. Code review 
 
 ## Step 3: Run Automated Checks
 
-<!-- TODO: Document automated checks execution (US-004) -->
+After branch verification passes, run the project's automated checks. **If any check fails, stop immediately** - do not proceed with manual code review.
+
+### Detect Available Checks
+
+Scan for project build tools and identify available scripts:
+
+**1. Node.js projects (package.json)**
+```bash
+# Check for common scripts
+cat package.json | jq '.scripts | keys[]' 2>/dev/null
+```
+Look for: `build`, `test`, `lint`, `typecheck`, `check`, `ci`
+
+**2. Python projects**
+- `Makefile` with targets like `test`, `lint`, `typecheck`
+- `pyproject.toml` with tool configs (pytest, ruff, mypy)
+- `setup.py` or `requirements.txt`
+
+**3. Go projects**
+```bash
+go build ./...
+go test ./...
+go vet ./...
+```
+
+**4. Rust projects**
+```bash
+cargo build
+cargo test
+cargo clippy
+```
+
+### Run Checks in Order
+
+Execute checks in this priority order (stop at first failure):
+
+1. **Typecheck** - catches type errors early
+2. **Lint** - catches code style and quality issues  
+3. **Build** - ensures code compiles/bundles
+4. **Test** - runs automated test suite
+
+Example for Node.js project:
+```bash
+# Run in order, stop on failure
+npm run typecheck && npm run lint && npm run build && npm test
+```
+
+### If Checks Pass
+
+Proceed to Step 4 (Identify Changed Files) for manual code review.
+
+### If Checks Fail
+
+**Stop immediately.** Do NOT proceed with manual code review.
+
+1. **Each failure is a critical issue** - automated check failures are always highest priority
+2. **Create fix stories** for each distinct failure
+3. **Prompt user** to run the developer agent loop to fix them first
+
+Example prompt:
+```
+AUTOMATED CHECKS FAILED - Manual code review skipped.
+
+The following checks failed:
+- typecheck: 3 errors in src/utils.ts
+- lint: 2 warnings treated as errors in src/App.tsx
+
+I'll add these as critical fix stories to .ralph/prd.json.
+After the developer agent loop fixes them, run /ralph-code-review again.
+
+Proceed with adding fix stories? (yes/no)
+```
+
+### Fix Story Format for Check Failures
+
+When adding fix stories for automated check failures:
+
+```json
+{
+  "id": "US-012",
+  "title": "[FIX] Resolve typecheck errors in src/utils.ts",
+  "description": "As a developer, I need to fix type errors so the build passes.",
+  "acceptanceCriteria": [
+    "Fix type error: Property 'foo' does not exist on type 'Bar'",
+    "Fix type error: Argument of type 'string' is not assignable to 'number'",
+    "npm run typecheck passes with no errors"
+  ],
+  "priority": 1,
+  "passes": false,
+  "notes": "Critical: blocks all other work"
+}
+```
+
+### Why Automated Checks Run First
+
+- **Fail fast:** Catch objective failures before spending time on subjective review
+- **Clear priority:** Automated failures are always more critical than code quality suggestions
+- **Efficient workflow:** Don't waste time reviewing code that won't build or pass tests
+- **Objective evidence:** No debate needed - the check passed or failed
+
+### Handling Different Build Systems
+
+| Project Type | Detection | Common Commands |
+|-------------|-----------|-----------------|
+| Node.js | `package.json` exists | `npm run typecheck`, `npm run lint`, `npm run build`, `npm test` |
+| Python | `pyproject.toml`, `Makefile` | `make lint`, `make typecheck`, `pytest` |
+| Go | `go.mod` exists | `go build ./...`, `go test ./...`, `go vet ./...` |
+| Rust | `Cargo.toml` exists | `cargo build`, `cargo test`, `cargo clippy` |
+| General | `Makefile` exists | `make check`, `make test`, `make lint` |
+
+If no standard build system is detected, ask the user:
+```
+I couldn't detect your project's build system. What commands should I run 
+for automated checks?
+
+Example: npm run typecheck && npm run lint && npm test
+```
+
+### Automated Checks Checklist
+
+- [ ] Detected project type and available scripts
+- [ ] Ran typecheck (if available)
+- [ ] Ran lint (if available)
+- [ ] Ran build (if available)
+- [ ] Ran tests (if available)
+- [ ] If all pass: proceed to Step 4
+- [ ] If any fail: stop, add fix stories, prompt user to run dev loop
 
 ---
 
