@@ -51,7 +51,7 @@ npm run dev
 
 ## Code Review Step
 
-After Ralph completes all stories, run `/ralph-code-review` to validate the implementation:
+After Ralph completes all stories, run `/code-review` to validate the implementation:
 
 1. **Automated checks first** - Runs typecheck, lint, build, test. Failures become critical fix stories.
 2. **Manual review** - Reviews `git diff main...HEAD` against PRD requirements.
@@ -60,6 +60,6 @@ After Ralph completes all stories, run `/ralph-code-review` to validate the impl
 5. **Fix stories added** - Confirmed issues become new stories in `.ralph/prd.json` with `[FIX]` or `[QUALITY]` prefixes.
 
 The review cycle repeats until no issues are found:
-- Run `/ralph-code-review`
+- Run `/code-review`
 - If issues found → Run Ralph to fix → Review again
 - If no issues → Feature is ready to merge

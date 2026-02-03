@@ -1,5 +1,5 @@
 ---
-name: ralph-code-review
+name: code-review
 description: "Reviews code changes against PRD requirements and adds fix stories to prd.json. Activates when feature implementation is complete and needs review before merging. Triggers on: review code, ralph code review, check implementation, validate against prd."
 disable-model-invocation: true
 ---

@@ -125,7 +125,7 @@ Ralph will:
 After Ralph completes all stories, use the code review skill to validate the implementation:
 
 ```
-Load the ralph-code-review skill and review the code
+Load the code-review skill and review the code
 ```
 
 This skill:
@@ -149,7 +149,7 @@ If issues are found, run Ralph again to fix them, then review again. Repeat unti
 | `prd.json.example` | Example PRD format for reference |
 | `skills/prd/` | Skill for generating PRDs |
 | `skills/ralph/` | Skill for converting PRDs to JSON |
-| `skills/ralph-code-review/` | Skill for reviewing code against PRD requirements |
+| `skills/code-review/` | Skill for reviewing code against PRD requirements |
 | `flowchart/` | Interactive visualization of how Ralph works |
 
 ## Flowchart
