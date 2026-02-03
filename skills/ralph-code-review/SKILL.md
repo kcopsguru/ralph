@@ -706,7 +706,170 @@ All new stories MUST have:
 
 ## Step 7: Interactive Review
 
-<!-- TODO: Document interactive review workflow (US-008) -->
+Present identified issues to the user for confirmation before converting them to stories. This interactive step ensures issues are accurate, appropriately prioritized, and not false positives.
+
+### Present Issues by Severity
+
+Group and present issues in priority order:
+
+1. **Critical issues first** - Blocking problems that must be addressed
+2. **Major issues second** - Significant quality problems
+3. **Minor issues last** - Improvement opportunities
+
+Example presentation:
+
+```
+## Code Review Results
+
+### Critical Issues (2)
+
+1. **[Requirements Deviation]** LoginForm missing email validation
+   - File: src/components/LoginForm.tsx
+   - Issue: Form submits without validating email format
+   - Related: US-002 AC #3 - "Form validates email format before submission"
+   - Suggested: [FIX] Add email validation to LoginForm
+
+2. **[Requirements Deviation]** Dashboard pagination not implemented
+   - File: src/pages/Dashboard.tsx
+   - Issue: Shows all items instead of paginated results
+   - Related: US-007 AC #2 - "Display results with pagination (20 per page)"
+   - Suggested: [FIX] Implement dashboard pagination
+
+### Major Issues (1)
+
+3. **[Code Quality]** Duplicate error handling in API functions
+   - Files: src/api/users.ts, src/api/posts.ts, src/api/comments.ts
+   - Issue: Identical try/catch blocks in 5 functions
+   - Suggested: [QUALITY] Extract duplicate API error handling
+
+### Minor Issues (2)
+
+4. **[Code Quality]** Unclear function name 'doThing'
+   - File: src/helpers/format.ts
+   - Issue: Function name doesn't convey purpose
+   - Suggested: [QUALITY] Rename unclear function 'doThing'
+
+5. **[Code Quality]** Unused import 'useState'
+   - File: src/components/Header.tsx
+   - Issue: Dead code - import not used
+   - Suggested: [QUALITY] Remove unused import in Header.tsx
+```
+
+### Confirm, Modify, or Dismiss
+
+After presenting issues, ask the user to review them:
+
+```
+Please review each issue:
+- Type the issue number to confirm (e.g., "1" or "1, 2, 3")
+- Type "all" to confirm all issues
+- Type "dismiss 4" to remove an issue
+- Type "modify 3" to adjust an issue's severity or description
+
+You can also provide additional context for any issue.
+
+Which issues should I convert to stories?
+```
+
+### User Interaction Options
+
+| Action | User Input | Result |
+|--------|-----------|--------|
+| Confirm single | `1` | Issue #1 becomes a story |
+| Confirm multiple | `1, 2, 3` | Issues #1, #2, #3 become stories |
+| Confirm all | `all` | All issues become stories |
+| Dismiss single | `dismiss 4` | Issue #4 is removed, not converted |
+| Dismiss multiple | `dismiss 4, 5` | Issues #4, #5 are removed |
+| Modify issue | `modify 3` | Prompt for changes to issue #3 |
+
+### Handling Modifications
+
+When user types `modify N`, prompt for changes:
+
+```
+Modifying Issue #3: Duplicate error handling in API functions
+
+Current severity: Major
+Current description: Identical try/catch blocks in 5 functions
+
+What would you like to change?
+1. Change severity to Critical
+2. Change severity to Minor
+3. Update description
+4. Add additional context
+
+Enter choice (or type new description directly):
+```
+
+Accept user's changes and update the issue before conversion:
+
+```
+Updated Issue #3:
+- Severity: Critical (changed from Major)
+- Description: Identical try/catch blocks in 5 functions - causes inconsistent error messages
+
+Confirm this change? (yes/no)
+```
+
+### Adding User Context
+
+Users can provide context that gets added to the story:
+
+```
+> 1, 2 - The email validation should use the same regex as the signup form
+
+Got it. I'll add this context to both stories:
+- US-011 [FIX] Add email validation to LoginForm
+  Added note: "Use the same regex as the signup form"
+- US-012 [FIX] Implement dashboard pagination
+```
+
+Context provided by users should be added to the story's `notes` field or incorporated into acceptance criteria.
+
+### Limit Issues Per Cycle
+
+To avoid overwhelming the developer agent loop with too many stories:
+
+**Recommendation:** Process critical and major issues first, defer minor issues.
+
+```
+I found 2 critical, 3 major, and 8 minor issues.
+
+Recommendation: Let's focus on critical and major issues first (5 total).
+After the dev loop fixes these, run /ralph-code-review again to address 
+minor issues.
+
+Options:
+1. Proceed with critical + major only (recommended)
+2. Include all 13 issues
+3. Let me select specific issues
+
+Choose (1/2/3):
+```
+
+If user chooses option 1 (recommended):
+```
+Processing 5 issues (2 critical, 3 major).
+8 minor issues deferred to next review cycle.
+```
+
+### Why Interactive Review
+
+- **Accuracy:** Agent may misunderstand requirements - user can correct
+- **Context:** User knows details the agent doesn't - can add notes
+- **Prioritization:** User knows what matters most for the project
+- **False positives:** User can dismiss issues that aren't actually problems
+- **Manageable scope:** Limiting issues per cycle keeps dev loop efficient
+
+### Interactive Review Checklist
+
+- [ ] Presented issues grouped by severity (critical, major, minor)
+- [ ] Asked user to confirm, modify, or dismiss each issue
+- [ ] Accepted user modifications to severity or description
+- [ ] Captured any additional context from user
+- [ ] Recommended limiting to critical + major for first cycle
+- [ ] Got user confirmation on final issue list
+- [ ] Ready to proceed to Step 8 (Update prd.json)
 
 ---
 
