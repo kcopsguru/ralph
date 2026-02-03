@@ -69,7 +69,64 @@ Please provide paths to any relevant documentation, or type
 
 ## Step 2: Verify Branch
 
-<!-- TODO: Document branch verification (US-003) -->
+Before reviewing code, verify you're on the correct feature branch. Code review should never run on `main`.
+
+### Verification Steps
+
+1. **Verify not on main branch**
+   ```bash
+   git branch --show-current
+   ```
+   If the result is `main` or `master`, stop with error:
+   ```
+   ERROR: Cannot run code review on main branch.
+   Please checkout your feature branch first.
+   ```
+
+2. **Verify branch matches `.ralph/.last-branch`**
+   ```bash
+   # Read .ralph/.last-branch content
+   cat .ralph/.last-branch
+   # Compare with current branch
+   git branch --show-current
+   ```
+   If they differ, stop with error:
+   ```
+   ERROR: Branch mismatch.
+   Current branch: [current]
+   Expected branch (.ralph/.last-branch): [expected]
+   
+   Please checkout the correct branch or update .ralph/.last-branch.
+   ```
+
+3. **Verify branch matches `branchName` in `.ralph/prd.json`**
+   ```bash
+   # Get branchName from prd.json (using jq or parse manually)
+   jq -r '.branchName' .ralph/prd.json
+   # Compare with current branch
+   git branch --show-current
+   ```
+   If they differ, stop with error:
+   ```
+   ERROR: Branch mismatch.
+   Current branch: [current]
+   Expected branch (prd.json branchName): [expected]
+   
+   Please checkout the correct branch or update .ralph/prd.json.
+   ```
+
+### Why This Matters
+
+- Prevents accidentally reviewing code on `main` (which has no feature changes)
+- Ensures consistency between Ralph's state files and git state
+- Catches configuration drift early before wasting time on a wrong-branch review
+
+### Branch Verification Checklist
+
+- [ ] Not on `main` or `master` branch
+- [ ] Current branch matches `.ralph/.last-branch`
+- [ ] Current branch matches `branchName` in `.ralph/prd.json`
+- [ ] All three values are consistent
 
 ---
 
