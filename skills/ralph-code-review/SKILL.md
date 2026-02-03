@@ -354,7 +354,164 @@ Choose (1/2/3):
 
 ## Step 5: Review and Identify Issues
 
-<!-- TODO: Document issue identification process (US-006) -->
+**Prerequisite:** Automated checks passed (Step 3) and changed files identified (Step 4).
+
+Review each changed file against the PRD requirements and code quality standards. Identify issues and categorize them for the interactive review.
+
+### Issue Categories
+
+Issues fall into three categories:
+
+#### 1. Automated Check Failures
+
+Build, test, lint, or typecheck failures caught in Step 3.
+
+- **Always critical** - highest priority
+- Build errors that prevent compilation
+- Test failures
+- Lint errors (when configured to error)
+- Typecheck failures
+
+> **Note:** If automated checks failed, you should have already handled them in Step 3 and not reached this step. This category is listed for completeness and for documenting any issues discovered during manual review that would cause automated checks to fail.
+
+#### 2. Requirements Deviations
+
+Implementation doesn't match PRD requirements or acceptance criteria.
+
+- Acceptance criteria not fully met
+- Missing functionality described in PRD
+- Behavior differs from specification
+- Edge cases not handled per requirements
+- UI/UX doesn't match design requirements
+
+#### 3. Code Quality Issues
+
+Code works but violates quality standards.
+
+- **DRY violations** - duplicated code that should be extracted
+- **Overengineering** - unnecessary abstractions, premature optimization
+- **Unnecessary code** - dead code, unused imports, commented-out code
+- **High complexity** - functions too long, deeply nested logic
+- **Unclear naming** - variables/functions that don't convey intent
+- **Missing error handling** - unhanded edge cases, missing try/catch
+- **Inconsistent patterns** - doesn't follow existing codebase conventions
+
+### Severity Levels
+
+Assign one of three severity levels to each issue:
+
+| Severity | Description | Examples |
+|----------|-------------|----------|
+| **Critical** | Blocks functionality or fails automated checks | Build fails, tests fail, core feature broken, security vulnerability |
+| **Major** | Significant quality issue that should be fixed | DRY violation affecting multiple files, missing error handling for user input, acceptance criteria partially met |
+| **Minor** | Improvement opportunity, not blocking | Naming could be clearer, minor code smell, documentation missing |
+
+### Priority Order
+
+When identifying issues, prioritize in this order:
+
+1. **Automated check failures** (always critical, highest priority)
+2. **Other critical issues** (blocking functionality)
+3. **Major issues** (significant quality problems)
+4. **Minor issues** (improvement opportunities)
+
+This ensures the most important issues are addressed first in subsequent dev loop iterations.
+
+### Issue Identification Process
+
+For each changed file:
+
+1. **Compare against acceptance criteria** - Does the code satisfy each criterion for related stories?
+2. **Check for requirements deviations** - Does behavior match PRD specification?
+3. **Review code quality** - Are there DRY violations, overengineering, or unnecessary code?
+4. **Note severity** - Is this critical, major, or minor?
+
+### Examples
+
+#### Example: Critical - Automated Check Failure
+
+```
+Category: Automated Check Failure
+Severity: Critical
+File: src/utils/parser.ts
+Issue: TypeScript error - Property 'parse' does not exist on type 'undefined'
+Related Story: US-005
+```
+
+#### Example: Critical - Requirements Deviation
+
+```
+Category: Requirements Deviation
+Severity: Critical
+File: src/components/LoginForm.tsx
+Issue: Login form missing email validation per AC #3 of US-002
+  "Form validates email format before submission"
+Related Story: US-002, AC #3
+```
+
+#### Example: Major - Code Quality Issue
+
+```
+Category: Code Quality Issue
+Severity: Major
+File: src/api/users.ts, src/api/posts.ts
+Issue: DRY violation - identical error handling logic duplicated in 5 API functions
+  Consider extracting to shared handleApiError() utility
+Related Story: N/A (code quality)
+```
+
+#### Example: Major - Requirements Deviation
+
+```
+Category: Requirements Deviation
+Severity: Major
+File: src/pages/Dashboard.tsx
+Issue: Dashboard shows all items but PRD specifies pagination with 20 items per page
+  "Display results with pagination (20 per page)" - US-007 AC #2
+Related Story: US-007, AC #2
+```
+
+#### Example: Minor - Code Quality Issue
+
+```
+Category: Code Quality Issue
+Severity: Minor
+File: src/helpers/format.ts
+Issue: Function 'doThing' has unclear naming - consider 'formatCurrency' or similar
+Related Story: N/A (code quality)
+```
+
+#### Example: Minor - Code Quality Issue
+
+```
+Category: Code Quality Issue
+Severity: Minor
+File: src/components/Header.tsx
+Issue: Unused import 'useState' - dead code
+Related Story: N/A (code quality)
+```
+
+### Issue Documentation Format
+
+Document each identified issue with:
+
+```
+Category: [Automated Check Failure | Requirements Deviation | Code Quality Issue]
+Severity: [Critical | Major | Minor]
+File: [path/to/file.ts]
+Issue: [Clear description of the problem]
+Related Story: [US-XXX, AC #N or N/A]
+```
+
+### Review and Identify Issues Checklist
+
+- [ ] Reviewed each changed file from Step 4
+- [ ] Compared implementation against acceptance criteria
+- [ ] Checked for requirements deviations from PRD
+- [ ] Identified code quality issues (DRY, overengineering, unnecessary code)
+- [ ] Assigned severity to each issue (critical, major, minor)
+- [ ] Documented issues in standard format
+- [ ] Ready to proceed to Step 6 (Convert Issues to Stories)
 
 ---
 
