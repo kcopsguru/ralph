@@ -1,37 +1,11 @@
 # Branch Verification
 
-Verify branch setup before reviewing code.
-
-## Checks
-
-Run these commands and verify all match:
+Verify before reviewing:
 
 ```bash
-# 1. Must not be on main/master
-git branch --show-current
-
-# 2. Must match .ralph/.last-branch
-cat .ralph/.last-branch
-
-# 3. Must match branchName in prd.json
-jq -r '.branchName' .ralph/prd.json
+git branch --show-current        # Must not be main/master
+cat .ralph/.last-branch          # Must match current branch
+jq -r '.branchName' .ralph/prd.json  # Must match current branch
 ```
 
-## Error Messages
-
-**On main branch:**
-```
-ERROR: Cannot run code review on main branch.
-Please checkout your feature branch first.
-```
-
-**Branch mismatch:**
-```
-ERROR: Branch mismatch.
-Current branch: [current]
-Expected branch: [expected]
-
-Please checkout the correct branch or update the configuration.
-```
-
-All three values must be consistent before proceeding.
+All three must be consistent. Stop with error if not.

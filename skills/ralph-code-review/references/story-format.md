@@ -1,68 +1,15 @@
 # Story Format
 
-Convert confirmed issues to user stories for `.ralph/prd.json`.
+Convert confirmed issues to stories in `.ralph/prd.json`.
 
-## Story ID Sequencing
+## Rules
 
-Continue from the last existing ID:
-```bash
-# If last story is US-010, new issues become US-011, US-012, ...
-```
+- **IDs**: Continue from last existing (US-010 → US-011, US-012...)
+- **Prefix**: `[FIX]` for check failures and requirements deviations, `[QUALITY]` for code quality
+- **Priority**: Critical first (1, 2...), then Major, then Minor
+- **Fields**: `passes: false`, `notes: ""`
 
-Never reuse or skip IDs.
-
-## Title Prefixes
-
-| Issue Category | Prefix |
-|---------------|--------|
-| Automated Check Failure | `[FIX]` |
-| Requirements Deviation | `[FIX]` |
-| Code Quality Issue | `[QUALITY]` |
-
-## Required Fields
-
-```json
-{
-  "id": "US-011",
-  "title": "[FIX] Add email validation to LoginForm",
-  "description": "As a developer, I need to fix...",
-  "acceptanceCriteria": [
-    "Specific criterion (See US-002 AC #3)",
-    "Another criterion"
-  ],
-  "priority": 1,
-  "category": "Requirements Deviation",
-  "severity": "Critical",
-  "files": ["src/components/LoginForm.tsx"],
-  "relatedStory": "US-002",
-  "passes": false,
-  "notes": ""
-}
-```
-
-## Priority Assignment
-
-| Severity | Priority |
-|----------|----------|
-| Critical (check failures) | Lowest numbers (1, 2...) |
-| Critical (other) | Next lowest |
-| Major | Middle |
-| Minor | Highest numbers |
-
-## Acceptance Criteria
-
-Can reference existing criteria:
-```
-"Form validates email format (See US-002 AC #3)"
-```
-
-Or define new ones:
-```
-"Extract error handling to shared utility"
-"All API functions use shared utility"
-```
-
-## Example: Automated Check Failure
+## Template
 
 ```json
 {
@@ -83,24 +30,4 @@ Or define new ones:
 }
 ```
 
-## Example: Code Quality Issue
-
-```json
-{
-  "id": "US-013",
-  "title": "[QUALITY] Extract duplicate API error handling",
-  "description": "As a developer, I need to consolidate duplicate code for maintainability.",
-  "acceptanceCriteria": [
-    "Create shared handleApiError() utility",
-    "Refactor API functions to use shared utility",
-    "No duplicate try/catch blocks remain"
-  ],
-  "priority": 3,
-  "category": "Code Quality Issue",
-  "severity": "Major",
-  "files": ["src/api/users.ts", "src/api/posts.ts"],
-  "relatedStory": null,
-  "passes": false,
-  "notes": ""
-}
-```
+Acceptance criteria can reference existing: `"See US-002 AC #3"`
