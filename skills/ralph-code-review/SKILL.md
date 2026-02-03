@@ -1,6 +1,7 @@
 ---
 name: ralph-code-review
 description: "Review code changes against PRD requirements and add fix stories to prd.json. Use when feature implementation is complete and needs review. Triggers on: review code, ralph code review, check implementation, validate against prd."
+disable-model-invocation: true
 ---
 
 # Ralph Code Review
@@ -13,8 +14,8 @@ Review code changes on a feature branch against PRD requirements. Identify issue
 2. **Verify branch** - See [references/branch-verification.md](references/branch-verification.md)
 3. **Run automated checks** - See [references/automated-checks.md](references/automated-checks.md)
 4. **Review code** - See [references/review-process.md](references/review-process.md) (skip if checks failed)
-5. **Convert issues to stories** - See [references/story-format.md](references/story-format.md)
-6. **Interactive review** - See [references/interactive-review.md](references/interactive-review.md)
+5. **Interactive review** - See [references/interactive-review.md](references/interactive-review.md) (user confirms/dismisses issues)
+6. **Convert confirmed issues to stories** - See [references/story-format.md](references/story-format.md)
 7. **Update prd.json** - Append confirmed stories, never modify existing ones
 
 ## Step 1: Gather Reference Files
@@ -39,8 +40,8 @@ Type paths or "none" to proceed.
 Follow the reference files in order. Key decision points:
 
 - **After Step 3**: If automated checks fail → skip Step 4, go directly to Step 5
-- **After Step 6**: User confirms, modifies, or dismisses each issue
-- **Step 7 rules**: Append only, sequential IDs, preserve existing fields, never modify original PRD
+- **Step 5**: User confirms, modifies, or dismisses each issue
+- **Step 6-7 rules**: Convert only confirmed issues, append only, sequential IDs, preserve existing fields, never modify original PRD
 
 ## Completion
 
