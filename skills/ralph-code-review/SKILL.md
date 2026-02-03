@@ -875,7 +875,210 @@ Processing 5 issues (2 critical, 3 major).
 
 ## Step 8: Update prd.json
 
-<!-- TODO: Document prd.json modification rules (US-009) -->
+After the user confirms issues in Step 7, add the new stories to `.ralph/prd.json`. Follow these rules to ensure the Ralph workflow continues working correctly.
+
+### Append New Stories
+
+New stories are **appended** to the existing `userStories` array. Never replace or reorder existing stories.
+
+```json
+{
+  "project": "MyProject",
+  "branchName": "feature/my-feature",
+  "description": "...",
+  "reference": "tasks/prd-my-feature.md",
+  "userStories": [
+    // Existing stories (US-001 through US-010) - DO NOT MODIFY
+    { "id": "US-001", ... },
+    { "id": "US-010", ... },
+    // New stories appended here
+    { "id": "US-011", ... },
+    { "id": "US-012", ... }
+  ]
+}
+```
+
+### Story ID Sequencing
+
+Story IDs must continue incrementing from the last existing ID:
+
+1. Read `.ralph/prd.json` and find the highest existing story ID
+2. Parse the numeric portion (e.g., `US-010` → `10`)
+3. New stories start at the next number (e.g., `11`, `12`, `13`)
+
+```bash
+# Example: If last story is US-010, new issues become:
+# US-011 (first new issue)
+# US-012 (second new issue)
+# US-013 (third new issue)
+```
+
+**Never reuse or skip IDs.** Sequential numbering ensures traceability in git history and progress logs.
+
+### Never Modify Existing Stories
+
+Existing stories in `.ralph/prd.json` must **never** be modified, even if:
+
+- The issue relates to an existing story's acceptance criteria
+- You want to add notes to an existing story
+- The existing story has `passes: true` but the implementation is wrong
+
+Instead, create a **new fix story** that references the existing one:
+
+```json
+{
+  "id": "US-011",
+  "title": "[FIX] Complete email validation for LoginForm",
+  "description": "As a developer, I need to fully implement the email validation that was partially completed.",
+  "acceptanceCriteria": [
+    "Complete email validation per US-002 AC #3",
+    "Fix: validation allows invalid formats like 'user@'",
+    "All US-002 acceptance criteria verified working"
+  ],
+  "priority": 1,
+  "passes": false,
+  "notes": ""
+}
+```
+
+### Never Modify the Original PRD
+
+The original PRD markdown file (specified in the `reference` field) is the **blueprint**. It is **read-only** and must never be modified.
+
+- ✅ Read `tasks/prd-my-feature.md` for requirements context
+- ❌ Never edit `tasks/prd-my-feature.md`
+- ✅ Add fix stories to `.ralph/prd.json`
+- ❌ Never add stories to the original PRD markdown
+
+The separation matters:
+- **Original PRD** = What was planned (immutable record)
+- **`.ralph/prd.json`** = What needs to be done (living document)
+
+### Preserve All Other Fields
+
+When updating `.ralph/prd.json`, preserve all non-story fields exactly as they are:
+
+| Field | Action |
+|-------|--------|
+| `project` | Preserve unchanged |
+| `branchName` | Preserve unchanged |
+| `description` | Preserve unchanged |
+| `reference` | Preserve unchanged |
+| `userStories` | Append new stories only |
+
+### Document Before/After Counts
+
+Before modifying `.ralph/prd.json`, note the current state for the user:
+
+```
+Updating .ralph/prd.json:
+- Stories before: 10 (US-001 through US-010)
+- Adding: 3 new fix stories (US-011, US-012, US-013)
+- Stories after: 13
+
+Proceed? (yes/no)
+```
+
+This serves as a backup verification—the user can confirm the change is expected.
+
+### Complete prd.json Update Example
+
+**Before update:**
+```json
+{
+  "project": "MyProject",
+  "branchName": "feature/auth",
+  "description": "User authentication feature",
+  "reference": "tasks/prd-auth.md",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create login form",
+      "description": "...",
+      "acceptanceCriteria": ["..."],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Add email validation",
+      "description": "...",
+      "acceptanceCriteria": ["Form validates email format before submission"],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    }
+  ]
+}
+```
+
+**After update (with 2 new fix stories):**
+```json
+{
+  "project": "MyProject",
+  "branchName": "feature/auth",
+  "description": "User authentication feature",
+  "reference": "tasks/prd-auth.md",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create login form",
+      "description": "...",
+      "acceptanceCriteria": ["..."],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Add email validation",
+      "description": "...",
+      "acceptanceCriteria": ["Form validates email format before submission"],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "[FIX] Complete email validation for LoginForm",
+      "description": "As a developer, I need to fix the incomplete email validation.",
+      "acceptanceCriteria": [
+        "Fix: validation allows 'user@' without domain (See US-002 AC #1)",
+        "Email regex matches standard RFC 5322 format",
+        "Invalid email shows error message"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "[QUALITY] Extract duplicate form validation logic",
+      "description": "As a developer, I need to consolidate validation code for maintainability.",
+      "acceptanceCriteria": [
+        "Create shared validateEmail() utility",
+        "LoginForm and SignupForm both use shared utility",
+        "No duplicate validation regex in codebase"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
+```
+
+### Update prd.json Checklist
+
+- [ ] Read current `.ralph/prd.json` to get existing stories
+- [ ] Found highest existing story ID for sequencing
+- [ ] Appended new stories (did not modify existing)
+- [ ] Story IDs continue from existing sequence
+- [ ] Preserved all other fields (project, branchName, description, reference)
+- [ ] Did NOT modify original PRD (reference file)
+- [ ] Reported before/after story counts to user
+- [ ] Saved updated `.ralph/prd.json`
 
 ---
 
