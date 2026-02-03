@@ -1084,7 +1084,152 @@ This serves as a backup verification—the user can confirm the change is expect
 
 ## Step 9: Complete Review
 
-<!-- TODO: Document review completion and re-invocation (US-010) -->
+After adding fix stories to `.ralph/prd.json`, the code review cycle is complete. The skill does not automatically fix issues—that's the user's responsibility via the developer agent loop.
+
+### Review Completion
+
+The code review is **complete** when:
+
+1. All confirmed issues have been converted to stories
+2. New stories have been added to `.ralph/prd.json`
+3. The user has been notified of the changes
+
+Display a completion summary:
+
+```
+## Code Review Complete
+
+Added 3 new stories to .ralph/prd.json:
+- US-011: [FIX] Add email validation to LoginForm (Critical)
+- US-012: [FIX] Implement dashboard pagination (Critical)
+- US-013: [QUALITY] Extract duplicate API error handling (Major)
+
+Stories before: 10
+Stories after: 13
+
+## Next Steps
+
+1. Run the developer agent loop to fix the new stories
+2. After fixes are complete, run /ralph-code-review again
+3. Repeat until no issues remain
+```
+
+### User Responsibility
+
+The `/ralph-code-review` skill does **NOT**:
+
+- Automatically run the developer agent loop
+- Fix any of the identified issues
+- Make code changes beyond updating `.ralph/prd.json`
+
+The user must:
+
+1. Review the new stories in `.ralph/prd.json`
+2. Run the developer agent loop (e.g., `/ralph` or manually)
+3. Let the agent complete the fix stories
+4. Run `/ralph-code-review` again when ready
+
+### Re-invocation
+
+After the developer agent loop fixes the new stories, run `/ralph-code-review` again:
+
+```
+/ralph-code-review
+```
+
+Each subsequent review:
+
+1. **Re-runs automated checks** - Ensures fixes haven't broken anything
+2. **Re-reviews changed files** - The diff will include fix commits
+3. **Identifies remaining issues** - May find new issues or missed problems
+4. **Adds more fix stories** - If any issues remain
+
+The review cycle continues until complete.
+
+### Exit Condition
+
+The code review process is **fully complete** when a review finds **no new issues**:
+
+```
+## Code Review Complete - No Issues Found
+
+All automated checks pass:
+✓ typecheck
+✓ lint
+✓ build
+✓ test
+
+Code review results:
+✓ No requirements deviations found
+✓ No code quality issues identified
+
+The feature branch is ready for merge!
+```
+
+This happens when:
+
+| Condition | Status |
+|-----------|--------|
+| All automated checks pass | ✓ |
+| No requirements deviations | ✓ |
+| No code quality issues | ✓ |
+| No new stories needed | ✓ |
+
+When this state is reached, the feature is considered complete and ready for merge to `main`.
+
+### The Review Loop
+
+The full workflow:
+
+```
+┌─────────────────────────────────────────┐
+│         /ralph-code-review              │
+│                                         │
+│  1. Run automated checks                │
+│  2. Review code changes                 │
+│  3. Identify issues                     │
+│  4. Add fix stories to prd.json         │
+└───────────────┬─────────────────────────┘
+                │
+                ▼
+        Issues found?
+       /            \
+      NO            YES
+      │              │
+      ▼              ▼
+   COMPLETE    Run developer
+   (ready to   agent loop
+    merge)          │
+                    ▼
+             Fixes complete
+                    │
+                    ▼
+             ┌──────┴──────┐
+             │ Run again   │
+             │ /ralph-code-│
+             │ review      │
+             └─────────────┘
+```
+
+### Typical Review Cycle
+
+A typical project might go through several cycles:
+
+| Cycle | Issues Found | Action |
+|-------|-------------|--------|
+| 1 | 2 critical, 3 major | Dev loop fixes 5 stories |
+| 2 | 0 critical, 1 major, 4 minor | Dev loop fixes 5 stories |
+| 3 | 0 issues | **Complete** - ready to merge |
+
+Each cycle should find fewer issues as problems are fixed. If issues are increasing, stop and investigate—something may be fundamentally wrong.
+
+### Complete Review Checklist
+
+- [ ] All confirmed issues converted to stories
+- [ ] Stories added to `.ralph/prd.json`
+- [ ] Completion summary displayed to user
+- [ ] User understands next steps (run dev loop, then review again)
+- [ ] If no issues found: declare feature ready for merge
 
 ---
 
