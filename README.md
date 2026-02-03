@@ -120,6 +120,22 @@ Ralph will:
 8. Append learnings to `.ralph/progress.txt` (not committed - gitignored)
 9. Repeat until all stories pass or max iterations reached
 
+### 4. Review Code (Optional)
+
+After Ralph completes all stories, use the code review skill to validate the implementation:
+
+```
+Load the code-review skill and review the code
+```
+
+This skill:
+1. Runs automated checks (typecheck, lint, build, test)
+2. Reviews code changes against PRD requirements
+3. Identifies requirements deviations and code quality issues
+4. Adds fix stories to `.ralph/prd.json` for any issues found
+
+If issues are found, run Ralph again to fix them, then review again. Repeat until no issues remain.
+
 ## Key Files
 
 | File | Purpose |
@@ -133,6 +149,7 @@ Ralph will:
 | `prd.json.example` | Example PRD format for reference |
 | `skills/prd/` | Skill for generating PRDs |
 | `skills/ralph/` | Skill for converting PRDs to JSON |
+| `skills/code-review/` | Skill for reviewing code against PRD requirements |
 | `flowchart/` | Interactive visualization of how Ralph works |
 
 ## Flowchart
