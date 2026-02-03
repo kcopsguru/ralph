@@ -517,7 +517,190 @@ Related Story: [US-XXX, AC #N or N/A]
 
 ## Step 6: Convert Issues to Stories
 
-<!-- TODO: Document issue-to-story conversion format (US-007) -->
+After the user confirms issues in Step 7 (Interactive Review), convert each confirmed issue into a new user story in `.ralph/prd.json` format.
+
+### Story ID Sequencing
+
+New story IDs continue from the existing sequence:
+
+1. Find the last story ID in `.ralph/prd.json` (e.g., `US-010`)
+2. Extract the numeric portion (e.g., `10`)
+3. Increment for each new story (e.g., `US-011`, `US-012`, `US-013`)
+
+Example:
+```bash
+# If .ralph/prd.json has stories US-001 through US-010
+# New issues become: US-011, US-012, US-013, ...
+```
+
+### Story Title Format
+
+Use issue type prefixes in story titles:
+
+| Issue Category | Prefix | Example |
+|---------------|--------|---------|
+| Automated Check Failure | `[FIX]` | `[FIX] Resolve typecheck errors in parser.ts` |
+| Requirements Deviation | `[FIX]` | `[FIX] Add email validation to login form` |
+| Code Quality Issue | `[QUALITY]` | `[QUALITY] Extract duplicate error handling logic` |
+
+### Story Format
+
+Each confirmed issue becomes a story with this structure:
+
+```json
+{
+  "id": "US-011",
+  "title": "[FIX] Add email validation to login form",
+  "description": "As a developer, I need to fix the login form to validate email format per the original requirements.",
+  "acceptanceCriteria": [
+    "Form validates email format before submission (See US-002 AC #3)",
+    "Invalid email displays clear error message",
+    "Form submission is blocked until email is valid"
+  ],
+  "priority": 1,
+  "passes": false,
+  "notes": ""
+}
+```
+
+### Acceptance Criteria Guidelines
+
+Acceptance criteria can:
+
+1. **Reference existing criteria** - When the issue is about unmet requirements:
+   ```
+   "Form validates email format before submission (See US-002 AC #3)"
+   ```
+
+2. **Define new criteria** - When the issue is about code quality or new requirements:
+   ```
+   "Extract error handling to shared handleApiError() utility"
+   "All API functions use the shared utility"
+   "No duplicate try/catch blocks remain"
+   ```
+
+3. **Mix both approaches** - Reference what was missed, add specific fix criteria:
+   ```
+   "Implement pagination with 20 items per page (See US-007 AC #2)"
+   "Add page navigation controls"
+   "Display current page and total pages"
+   ```
+
+### Priority Assignment
+
+Priority determines the order stories are worked on. Lower numbers = higher priority.
+
+| Issue Severity | Priority Assignment |
+|---------------|---------------------|
+| Critical (automated check failures) | Lowest available numbers (run first) |
+| Critical (other blocking issues) | Next lowest numbers |
+| Major | Middle numbers |
+| Minor | Highest numbers (run last) |
+
+Example with 3 issues (starting after US-010):
+- Critical typecheck failure → US-011, priority: 1
+- Major DRY violation → US-012, priority: 2  
+- Minor naming issue → US-013, priority: 3
+
+### Complete Story Examples
+
+#### Example: Critical - Automated Check Failure
+
+```json
+{
+  "id": "US-011",
+  "title": "[FIX] Resolve typecheck errors in src/utils/parser.ts",
+  "description": "As a developer, I need to fix type errors so the build passes.",
+  "acceptanceCriteria": [
+    "Fix: Property 'parse' does not exist on type 'undefined' (line 45)",
+    "Fix: Argument of type 'string' is not assignable to 'number' (line 72)",
+    "npm run typecheck passes with no errors"
+  ],
+  "priority": 1,
+  "passes": false,
+  "notes": ""
+}
+```
+
+#### Example: Critical - Requirements Deviation
+
+```json
+{
+  "id": "US-012",
+  "title": "[FIX] Add email validation to LoginForm",
+  "description": "As a developer, I need to implement the missing email validation per US-002 requirements.",
+  "acceptanceCriteria": [
+    "Form validates email format before submission (See US-002 AC #3)",
+    "Invalid email displays error: 'Please enter a valid email address'",
+    "Submit button is disabled until email format is valid"
+  ],
+  "priority": 2,
+  "passes": false,
+  "notes": ""
+}
+```
+
+#### Example: Major - Code Quality Issue
+
+```json
+{
+  "id": "US-013",
+  "title": "[QUALITY] Extract duplicate API error handling",
+  "description": "As a developer, I need to consolidate duplicate error handling code to improve maintainability.",
+  "acceptanceCriteria": [
+    "Create shared handleApiError() utility in src/utils/api.ts",
+    "Refactor all 5 API functions to use the shared utility",
+    "Remove duplicate try/catch blocks from individual functions",
+    "Error behavior remains identical (no functional changes)"
+  ],
+  "priority": 3,
+  "passes": false,
+  "notes": ""
+}
+```
+
+#### Example: Minor - Code Quality Issue
+
+```json
+{
+  "id": "US-014",
+  "title": "[QUALITY] Rename unclear function 'doThing'",
+  "description": "As a developer, I need clearer function naming to improve code readability.",
+  "acceptanceCriteria": [
+    "Rename 'doThing' to 'formatCurrency' in src/helpers/format.ts",
+    "Update all call sites to use new function name",
+    "Add JSDoc comment explaining the function's purpose"
+  ],
+  "priority": 4,
+  "passes": false,
+  "notes": ""
+}
+```
+
+### Required Story Fields
+
+All new stories MUST have:
+
+| Field | Required Value |
+|-------|---------------|
+| `id` | Sequential from last existing (e.g., US-011) |
+| `title` | Prefixed with `[FIX]` or `[QUALITY]` |
+| `description` | "As a developer, I need to..." format |
+| `acceptanceCriteria` | Array with specific, verifiable criteria |
+| `priority` | Number based on severity (lower = higher priority) |
+| `passes` | `false` (always) |
+| `notes` | `""` (always empty) |
+
+### Convert Issues to Stories Checklist
+
+- [ ] Determined next story ID from existing sequence
+- [ ] Used appropriate prefix (`[FIX]` or `[QUALITY]`) in title
+- [ ] Wrote clear description in "As a developer..." format
+- [ ] Created specific, verifiable acceptance criteria
+- [ ] Referenced existing ACs where applicable (e.g., "See US-003 AC #2")
+- [ ] Assigned priority based on severity (critical first, then major, then minor)
+- [ ] Set `passes: false` and `notes: ""`
+- [ ] Ready to proceed to Step 7 (Interactive Review)
 
 ---
 
