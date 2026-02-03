@@ -48,3 +48,18 @@ npm run dev
 - Memory persists via git history, `.ralph/progress.txt`, and `.ralph/prd.json`
 - Stories should be small enough to complete in one context window
 - Always update AGENTS.md with discovered patterns for future iterations
+
+## Code Review Step
+
+After Ralph completes all stories, run `/ralph-code-review` to validate the implementation:
+
+1. **Automated checks first** - Runs typecheck, lint, build, test. Failures become critical fix stories.
+2. **Manual review** - Reviews `git diff main...HEAD` against PRD requirements.
+3. **Issue identification** - Categorizes as: Automated Check Failures, Requirements Deviations, or Code Quality Issues.
+4. **Interactive confirmation** - User confirms, modifies, or dismisses each issue.
+5. **Fix stories added** - Confirmed issues become new stories in `.ralph/prd.json` with `[FIX]` or `[QUALITY]` prefixes.
+
+The review cycle repeats until no issues are found:
+- Run `/ralph-code-review`
+- If issues found → Run Ralph to fix → Review again
+- If no issues → Feature is ready to merge
