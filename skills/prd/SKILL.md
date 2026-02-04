@@ -80,15 +80,17 @@ Each story should be small enough to implement in one focused session.
 **Description:** As a [user], I want [feature] so that [benefit].
 
 **Acceptance Criteria:**
+- [ ] **[DEV stories only]** Write unit tests before actual implementation
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
+- [ ] **[UI stories only]** Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `[discovered check command]`
-- [ ] **[UI stories only]** Verify in browser using dev-browser skill
 ```
 
 **Important:**
+- **For any story with source code changes:** Always include "Write unit tests before actual implementation" as the first acceptance criteria. This ensures TDD workflow.
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
-- **For any story with UI changes:** Always include "Verify in browser using dev-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
+- **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
 - **Use project-specific checks, not generic "typecheck passes":** Discover what checks the project actually uses and include the exact command. See "Discovering Project Checks" below.
 - **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria. These incentivize over-optimization and can cause agents to make unrelated harmful changes to hit the number. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
 - **Each acceptance criterion should have only one possible interpretation:** If two developers could reasonably implement an AC differently, it's too ambiguous. For example, use specific verbs (add, remove, change, replace) instead of "update".
@@ -209,30 +211,33 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 **Description:** As a user, I want to see task priority at a glance so I know what needs attention first.
 
 **Acceptance Criteria:**
+- [ ] Write unit tests before actual implementation
 - [ ] Each task card shows colored priority badge (red=high, yellow=medium, gray=low)
 - [ ] Priority visible without hovering or clicking
+- [ ] Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `npm run check`
-- [ ] Verify in browser using dev-browser skill
 
 ### US-003: Add priority selector to task edit
 **Description:** As a user, I want to change a task's priority when editing it.
 
 **Acceptance Criteria:**
+- [ ] Write unit tests before actual implementation
 - [ ] Priority dropdown in task edit modal
 - [ ] Shows current priority as selected
 - [ ] Saves immediately on selection change
+- [ ] Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `npm run check`
-- [ ] Verify in browser using dev-browser skill
 
 ### US-004: Filter tasks by priority
 **Description:** As a user, I want to filter the task list to see only high-priority items when I'm focused.
 
 **Acceptance Criteria:**
+- [ ] Write unit tests before actual implementation
 - [ ] Filter dropdown with options: All | High | Medium | Low
 - [ ] Filter persists in URL params
 - [ ] Empty state message when no tasks match filter
+- [ ] Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `npm run check`
-- [ ] Verify in browser using dev-browser skill
 
 ## Functional Requirements
 
