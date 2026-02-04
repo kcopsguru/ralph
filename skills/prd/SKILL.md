@@ -82,15 +82,45 @@ Each story should be small enough to implement in one focused session.
 **Acceptance Criteria:**
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
-- [ ] Typecheck/lint passes
+- [ ] All checks pass: `[discovered check command]`
 - [ ] **[UI stories only]** Verify in browser using dev-browser skill
 ```
 
 **Important:**
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
 - **For any story with UI changes:** Always include "Verify in browser using dev-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
+- **Use project-specific checks, not generic "typecheck passes":** Discover what checks the project actually uses and include the exact command. See "Discovering Project Checks" below.
 - **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria. These incentivize over-optimization and can cause agents to make unrelated harmful changes to hit the number. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
 - **Each acceptance criterion should have only one possible interpretation:** If two developers could reasonably implement an AC differently, it's too ambiguous. For example, use specific verbs (add, remove, change, replace) instead of "update".
+
+### Discovering Project Checks
+
+Before writing acceptance criteria, discover what automated checks the project uses. Do NOT use generic "typecheck passes" - use the actual commands.
+
+**Where to look (in priority order):**
+
+1. **CI Configuration** - If a project has CI, it likely runs comprehensive checks. Prefer using the same commands CI uses:
+   - `.github/workflows/*.yml` - Look for `run:` commands
+   - `.gitlab-ci.yml`, `Jenkinsfile`, `.circleci/config.yml`
+
+2. **Package Manager Scripts:**
+   - `package.json` scripts (Node.js)
+   - `Makefile` targets (Go, Python, C)
+   - `pyproject.toml` (Python)
+   - `Cargo.toml` (Rust)
+
+3. **Common script names to look for:**
+   - Combined checks (prefer these!): `check`, `ci`, `validate`, `verify`
+   - Individual: `typecheck`, `lint`, `build`, `test`, `test:e2e`
+
+**Selecting the right check command:**
+
+1. If there's a `check`, `ci`, or `validate` script that runs everything → use that single command
+2. If CI config has comprehensive commands → use those exact commands
+3. Otherwise → combine relevant scripts: `npm run lint && npm run build && npm test`
+4. If nothing found → ask the user what checks should pass
+
+**Example:** For a project with `"check": "npm run lint && npm run build && npm run test"` in package.json, acceptance criteria should use `npm run check`.
 
 ### 4. Functional Requirements
 Numbered list of specific functionalities:
@@ -173,7 +203,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 **Acceptance Criteria:**
 - [ ] Add priority column to tasks table: 'high' | 'medium' | 'low' (default 'medium')
 - [ ] Generate and run migration successfully
-- [ ] Typecheck passes
+- [ ] All checks pass: `npm run check`
 
 ### US-002: Display priority indicator on task cards
 **Description:** As a user, I want to see task priority at a glance so I know what needs attention first.
@@ -181,7 +211,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 **Acceptance Criteria:**
 - [ ] Each task card shows colored priority badge (red=high, yellow=medium, gray=low)
 - [ ] Priority visible without hovering or clicking
-- [ ] Typecheck passes
+- [ ] All checks pass: `npm run check`
 - [ ] Verify in browser using dev-browser skill
 
 ### US-003: Add priority selector to task edit
@@ -191,7 +221,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Priority dropdown in task edit modal
 - [ ] Shows current priority as selected
 - [ ] Saves immediately on selection change
-- [ ] Typecheck passes
+- [ ] All checks pass: `npm run check`
 - [ ] Verify in browser using dev-browser skill
 
 ### US-004: Filter tasks by priority
@@ -201,7 +231,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Filter dropdown with options: All | High | Medium | Low
 - [ ] Filter persists in URL params
 - [ ] Empty state message when no tasks match filter
-- [ ] Typecheck passes
+- [ ] All checks pass: `npm run check`
 - [ ] Verify in browser using dev-browser skill
 
 ## Functional Requirements
@@ -223,6 +253,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - Reuse existing badge component with color variants
 - Filter state managed via URL search params
 - Priority stored in database, not computed
+- **Project checks:** `npm run check` (discovered from package.json - runs lint, build, and test)
 
 ## Success Metrics
 
@@ -245,6 +276,7 @@ Before saving the PRD:
 - [ ] Asked clarifying questions with lettered options
 - [ ] Incorporated user's answers
 - [ ] User stories are small and specific
+- [ ] Acceptance criteria use project-specific check commands (not generic "typecheck passes")
 - [ ] Functional requirements are numbered and unambiguous
 - [ ] Non-goals section defines clear boundaries
 - [ ] Documentation updates section included (or user story for docs)
