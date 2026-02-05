@@ -32,7 +32,7 @@ Take a PRD (markdown file or text) and convert it to `.ralph/prd.json` in your p
       "acceptanceCriteria": [
         "Criterion 1",
         "Criterion 2",
-        "Typecheck passes"
+        "All check pass"
       ],
       "priority": 1,
       "passes": false,
@@ -89,8 +89,8 @@ Each criterion must be something Ralph can CHECK, not something vague.
 - "Add `status` column to tasks table with default 'pending'"
 - "Filter dropdown has options: All, Active, Completed"
 - "Clicking delete shows confirmation dialog"
-- "Typecheck passes"
 - "Tests pass"
+- "All check pass"
 
 ### Bad criteria (vague):
 - "Works correctly"
@@ -183,7 +183,7 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')",
         "Generate and run migration successfully",
-        "Typecheck passes"
+        "All checks pass"
       ],
       "priority": 1,
       "passes": false,
@@ -196,8 +196,8 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         "Each task card shows colored status badge",
         "Badge colors: gray=pending, blue=in_progress, green=done",
-        "Typecheck passes",
-        "Verify in browser using dev-browser skill"
+        "All checks pass",
+        "Write e2e test scripts using /agent-browser skill"
       ],
       "priority": 2,
       "passes": false,
@@ -211,8 +211,8 @@ Add ability to mark tasks with different statuses.
         "Each row has status dropdown or toggle",
         "Changing status saves immediately",
         "UI updates without page refresh",
-        "Typecheck passes",
-        "Verify in browser using dev-browser skill"
+        "All checks pass",
+        "Write e2e test scripts using /agent-browser skill"
       ],
       "priority": 3,
       "passes": false,
@@ -225,8 +225,8 @@ Add ability to mark tasks with different statuses.
       "acceptanceCriteria": [
         "Filter dropdown: All | Pending | In Progress | Done",
         "Filter persists in URL params",
-        "Typecheck passes",
-        "Verify in browser using dev-browser skill"
+        "All checks pass",
+        "Write e2e test scripts using /agent-browser skill"
       ],
       "priority": 4,
       "passes": false,
@@ -267,7 +267,7 @@ Before writing `.ralph/prd.json`, verify:
 - [ ] **Previous run archived** (if `.ralph/prd.json` exists with different branchName, you MUST archive it first - see Archiving section)
 - [ ] Each story is completable in one iteration (small enough)
 - [ ] Stories are ordered by dependency (schema to backend to UI)
-- [ ] Every story has "Typecheck passes" as criterion
-- [ ] UI stories have "Verify in browser using dev-browser skill" as criterion
+- [ ] UI stories have "Write e2e test scripts using /agent-browser skill" as criterion
+- [ ] Every story has "All check pass" as criterion
 - [ ] Acceptance criteria are verifiable (not vague)
 - [ ] No story depends on a later story
