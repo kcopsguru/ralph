@@ -100,7 +100,7 @@ Each criterion must be something Ralph can CHECK, not something vague.
 
 ### Always include as final criterion:
 ```
-"Typecheck passes"
+"All check passes"
 ```
 
 For stories with testable logic, also include:
@@ -108,12 +108,19 @@ For stories with testable logic, also include:
 "Tests pass"
 ```
 
-### For stories that change UI, also include:
+### For stories that add/update/remove features, also include:
 ```
-"Verify in browser using dev-browser skill"
+Write unit tests for acceptance criteria checks whenever possible
 ```
 
-Frontend stories are NOT complete until visually verified. Ralph will use the dev-browser skill to navigate to the page, interact with the UI, and confirm changes work.
+Development stories are NOT complete until verified using unit tests. Ralph will use TDD workflow to write unit tests first and then the implementaion to make them pass.
+
+### For stories that change UI, also include:
+```
+"Write e2e test scripts using /agent-browser skill"
+```
+
+Frontend stories are NOT complete until verified using e2e scripts. Ralph will use the /agent-browser skill to navigate to the page, interact with the UI, and create e2e scripts to confirm changes work.
 
 ---
 
@@ -124,7 +131,7 @@ Frontend stories are NOT complete until visually verified. Ralph will use the de
 3. **Priority**: Based on dependency order, then document order
 4. **All stories**: `passes: false` and empty `notes`
 5. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
-6. **Always add**: "Typecheck passes" to every story's acceptance criteria
+6. **Always add**: "All check passes" to every story's acceptance criteria
 
 ---
 
@@ -235,8 +242,8 @@ Add ability to mark tasks with different statuses.
 
 **Before writing a new `.ralph/prd.json`, you MUST archive any existing run:**
 
-1. Check if `.ralph/prd.json` exists
-2. If it exists:
+1. Run `ls .ralph/` to check if `.ralph/prd.json` exists or the directory is empty.
+2. If `.ralph/prd.json` exists:
    - Read its `branchName`
    - If different from the new feature's branch name:
      - Extract feature name from old branchName (strip `ralph/` prefix)
