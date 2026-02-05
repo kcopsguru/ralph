@@ -80,19 +80,20 @@ Each story should be small enough to implement in one focused session.
 **Description:** As a [user], I want [feature] so that [benefit].
 
 **Acceptance Criteria:**
-- [ ] **[DEV stories only]** Write unit tests before actual implementation
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
+- [ ] **[DEV stories only]** Write unit tests for acceptance criteria checks whenever possible
 - [ ] **[UI stories only]** Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `[discovered check command]`
 ```
 
 **Important:**
-- **For any story with source code changes:** Always include "Write unit tests before actual implementation" as the first acceptance criteria. This ensures TDD workflow.
+- When writing acceptance criteria, only include deliverables the user explicitly requested. If you believe additional deliverables are needed (scripts, documentation, tooling), ask the user first—do not add them to the PRD.
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
+- **For any story with code changes:** Always include "Write unit tests for acceptance criteria checks whenever possible" to ensure TDD workflow.
 - **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
-- **Use project-specific checks, not generic "typecheck passes":** Discover what checks the project actually uses and include the exact command. See "Discovering Project Checks" below.
-- **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria. These incentivize over-optimization and can cause agents to make unrelated harmful changes to hit the number. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
+- **Use project-specific checks:** Discover what checks the project actually uses and include the exact command. See "Discovering Project Checks" below.
+- **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria to avoid over-optimization. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
 - **Each acceptance criterion should have only one possible interpretation:** If two developers could reasonably implement an AC differently, it's too ambiguous. For example, use specific verbs (add, remove, change, replace) instead of "update".
 
 ### Discovering Project Checks
@@ -205,39 +206,39 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 **Acceptance Criteria:**
 - [ ] Add priority column to tasks table: 'high' | 'medium' | 'low' (default 'medium')
 - [ ] Generate and run migration successfully
-- [ ] All checks pass: `npm run check`
+- [ ] All checks pass: `npm run ci`
 
 ### US-002: Display priority indicator on task cards
 **Description:** As a user, I want to see task priority at a glance so I know what needs attention first.
 
 **Acceptance Criteria:**
-- [ ] Write unit tests before actual implementation
 - [ ] Each task card shows colored priority badge (red=high, yellow=medium, gray=low)
 - [ ] Priority visible without hovering or clicking
+- [ ] Write unit tests for acceptance criteria checks whenever possible
 - [ ] Write e2e test scripts using /agent-browser skill
-- [ ] All checks pass: `npm run check`
+- [ ] All checks pass: `npm run ci`
 
 ### US-003: Add priority selector to task edit
 **Description:** As a user, I want to change a task's priority when editing it.
 
 **Acceptance Criteria:**
-- [ ] Write unit tests before actual implementation
 - [ ] Priority dropdown in task edit modal
 - [ ] Shows current priority as selected
 - [ ] Saves immediately on selection change
+- [ ] Write unit tests for acceptance criteria checks whenever possible
 - [ ] Write e2e test scripts using /agent-browser skill
-- [ ] All checks pass: `npm run check`
+- [ ] All checks pass: `npm run ci`
 
 ### US-004: Filter tasks by priority
 **Description:** As a user, I want to filter the task list to see only high-priority items when I'm focused.
 
 **Acceptance Criteria:**
-- [ ] Write unit tests before actual implementation
 - [ ] Filter dropdown with options: All | High | Medium | Low
 - [ ] Filter persists in URL params
 - [ ] Empty state message when no tasks match filter
+- [ ] Write unit tests for acceptance criteria checks whenever possible
 - [ ] Write e2e test scripts using /agent-browser skill
-- [ ] All checks pass: `npm run check`
+- [ ] All checks pass: `npm run ci`
 
 ## Functional Requirements
 
@@ -258,7 +259,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - Reuse existing badge component with color variants
 - Filter state managed via URL search params
 - Priority stored in database, not computed
-- **Project checks:** `npm run check` (discovered from package.json - runs lint, build, and test)
+- **Project checks:** `npm run ci` (discovered from package.json - runs lint, build, and test)
 
 ## Success Metrics
 
@@ -281,8 +282,9 @@ Before saving the PRD:
 - [ ] Asked clarifying questions with lettered options
 - [ ] Incorporated user's answers
 - [ ] User stories are small and specific
-- [ ] Acceptance criteria use project-specific check commands (not generic "typecheck passes")
+- [ ] Acceptance criteria use project-specific check commands
 - [ ] Functional requirements are numbered and unambiguous
 - [ ] Non-goals section defines clear boundaries
 - [ ] Documentation updates section included (or user story for docs)
+- [ ] PRD content precisely matches to user's requirements, nothing more, nothing less
 - [ ] Saved to `tasks/prd-[feature-name].md`
