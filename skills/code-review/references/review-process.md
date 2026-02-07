@@ -12,31 +12,24 @@ git status --porcelain            # Uncommitted changes (prompt to commit first)
 
 ## File Review Checklist
 
-For each changed file, check for:
+For each changed file, check in this order:
 
-### Security Issues (Critical)
+### 1. Security Issues (Critical)
 
 - Hardcoded credentials, API keys, tokens
 - SQL injection vulnerabilities
 - XSS vulnerabilities
-- Missing input validation
 - Insecure dependencies
 - Path traversal risks
 
-### Code Quality (Major)
+### 2. Coding Guideline Violations (Major/Minor)
 
-- Functions > 50 lines
-- Files > 800 lines
-- Nesting depth > 4 levels
-- Missing error handling
+Check against the `coding` skill. Apply relevant language/framework guidelines based on files changed.
+
+### 3. Review-Specific Issues (Minor)
+
 - console.log statements
 - TODO/FIXME comments
-- Missing JSDoc for public APIs
-
-### Best Practices (Minor)
-
-- Mutation patterns (use immutable instead)
-- Emoji usage in code/comments
 - Missing tests for new code
 - Accessibility issues (a11y)
 
@@ -46,14 +39,15 @@ For each changed file, check for:
 |----------|--------|----------|
 | Automated Check Failure | `[FIX]` | Build errors, test failures, lint errors |
 | Requirements Deviation | `[FIX]` | AC not met, missing functionality, wrong behavior |
-| Code Quality Issue | `[QUALITY]` | DRY violations, overengineering, dead code, unclear naming |
+| Coding Guideline Violation | `[QUALITY]` | Mutation, missing error handling, any types |
+| Code Quality Issue | `[QUALITY]` | DRY violations, overengineering, dead code |
 
 ## Severity
 
 | Severity | Priority | Description |
 |----------|----------|-------------|
 | Critical | 1-2 | Blocks functionality, fails checks, security issue |
-| Major | 3+ | Significant quality issue, partial AC met |
-| Minor | Last | Improvement opportunity |
+| Major | 3+ | Significant quality issue, coding guideline violation |
+| Minor | Last | Improvement opportunity, style preference |
 
 Automated check failures are always Critical with highest priority.

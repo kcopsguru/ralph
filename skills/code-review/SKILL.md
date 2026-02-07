@@ -42,6 +42,7 @@ Read these files before reviewing:
 | Original PRD (from `reference` field) | Detailed requirements context |
 | `README.md` | Project conventions |
 | `docs/` folder (if exists) | Additional documentation |
+| `skills/coding/` | Coding standards (read relevant files based on languages used) |
 
 If no `docs/` folder exists, ask:
 ```
