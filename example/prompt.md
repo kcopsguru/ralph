@@ -19,7 +19,7 @@ If they differ (or `.ralph/.last-branch` doesn't exist), this is a new feature r
   ---
   ```
 
-> **Note:** Archiving of previous .ralph/prd.json and .ralph/progress.txt is handled by the ralph skill when creating a new prd.json (archived to `.ralph/archive/`), not here. This step just resets for the new run.
+> **Note:** Archiving of previous .ralph/prd.json and .ralph/progress.txt is handled by the prd-json skill when creating a new prd.json (archived to `.ralph/archive/`), not here. This step just resets for the new run.
 
 ### 2. Track Current Branch
 Write the PRD's `branchName` to `.ralph/.last-branch`

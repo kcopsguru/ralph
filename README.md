@@ -34,7 +34,7 @@ Copy the skills to your Amp config for use across all projects:
 
 ```bash
 cp -r skills/prd ~/.config/amp/skills/
-cp -r skills/ralph ~/.config/amp/skills/
+cp -r skills/prd-json ~/.config/amp/skills/
 ```
 
 ### Add Ralph files to .gitignore
@@ -70,7 +70,7 @@ Answer the clarifying questions. The skill saves output to `tasks/prd-[feature-n
 Use the Ralph skill to convert the markdown PRD to JSON:
 
 ```
-Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
+Load the prd-json skill and convert tasks/prd-[feature-name].md to prd.json
 ```
 
 This creates `.ralph/prd.json` with user stories structured for autonomous execution.
@@ -148,7 +148,7 @@ If issues are found, run Ralph again to fix them, then review again. Repeat unti
 | `.ralph/archive/` | Archives of completed feature runs |
 | `prd.json.example` | Example PRD format for reference |
 | `skills/prd/` | Skill for generating PRDs |
-| `skills/ralph/` | Skill for converting PRDs to JSON |
+| `skills/prd-json/` | Skill for converting PRDs to JSON |
 | `skills/code-review/` | Skill for reviewing code against PRD requirements |
 | `flowchart/` | Interactive visualization of how Ralph works |
 
