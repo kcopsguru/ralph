@@ -6,16 +6,19 @@ Ralph is an autonomous AI agent loop that runs Amp repeatedly until all PRD item
 
 ## Commands
 
+**Using the /ralph skill (recommended for single iterations):**
+
+Within an Amp or Cursor chat session:
+```
+Use the /ralph skill to execute the ralph workflow exactly once
+```
+
+**Using ralph.sh (automated multi-iteration loop):**
+
 ```bash
-# Run the flowchart dev server
-cd flowchart && npm run dev
-
-# Build the flowchart
-cd flowchart && npm run build
-
 # Run Ralph (from your project that has .ralph/prd.json)
 ./ralph.sh [OPTIONS]
-#   --prompt <file>         Path to prompt file (default: prompt.md in script directory)
+#   --prompt <file>         Path to prompt file (optional, uses /ralph skill by default)
 #   --max-iterations <n>    Maximum iterations (default: 10)
 #   --tool <tool>           CLI tool to use: amp or cursor (default: amp)
 #   -h, --help              Show help
@@ -24,10 +27,21 @@ cd flowchart && npm run build
 ./ralph.sh --tool cursor
 ```
 
+**Flowchart dev commands:**
+
+```bash
+# Run the flowchart dev server
+cd flowchart && npm run dev
+
+# Build the flowchart
+cd flowchart && npm run build
+```
+
 ## Key Files
 
 - `ralph.sh` - The bash loop that spawns fresh Amp instances
-- `prompt.md` - Instructions given to each Amp instance
+- `prompt.md` - Instructions given to each Amp instance (legacy - use `/ralph` skill instead)
+- `skills/ralph/SKILL.md` - The `/ralph` skill for executing the workflow within AI chat
 - `prd.json.example` - Example PRD format
 - `flowchart/` - Interactive React Flow diagram explaining how Ralph works
 

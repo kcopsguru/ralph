@@ -24,9 +24,10 @@ Copy the ralph files into your project:
 # From your project root
 mkdir -p scripts/ralph
 cp /path/to/ralph/ralph.sh scripts/ralph/
-cp /path/to/ralph/prompt.md scripts/ralph/
 chmod +x scripts/ralph/ralph.sh
 ```
+
+The script uses the `/ralph` skill by default - no prompt file needed.
 
 ### Option 2: Install skills globally
 
@@ -35,6 +36,7 @@ Copy the skills to your Amp config for use across all projects:
 ```bash
 cp -r skills/prd ~/.config/amp/skills/
 cp -r skills/prd-json ~/.config/amp/skills/
+cp -r skills/ralph ~/.config/amp/skills/
 ```
 
 ### Add Ralph files to .gitignore
@@ -77,6 +79,18 @@ This creates `.ralph/prd.json` with user stories structured for autonomous execu
 
 ### 3. Run Ralph
 
+**Option A: Using the `/ralph` skill (single iteration)**
+
+Within an Amp or Cursor chat session:
+
+```
+Use the /ralph skill to execute the ralph workflow exactly once
+```
+
+This runs one iteration of the Ralph loop within your current AI chat session. Repeat the prompt to continue implementing stories.
+
+**Option B: Using ralph.sh (automated loop)**
+
 ```bash
 ./scripts/ralph/ralph.sh [OPTIONS]
 ```
@@ -85,7 +99,7 @@ This creates `.ralph/prd.json` with user stories structured for autonomous execu
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--prompt <file>` | Path to prompt file | `prompt.md` in script directory |
+| `--prompt <file>` | Path to prompt file (optional) | Uses `/ralph` skill |
 | `--max-iterations <n>` | Maximum iterations to run | `10` |
 | `--tool <tool>` | CLI tool to use: `amp` or `cursor` | `amp` |
 | `-h`, `--help` | Show help message | - |
@@ -93,7 +107,7 @@ This creates `.ralph/prd.json` with user stories structured for autonomous execu
 **Examples:**
 
 ```bash
-# Run with defaults (amp tool, prompt.md, 10 iterations)
+# Run with defaults (amp tool, default prompt, 10 iterations)
 ./scripts/ralph/ralph.sh
 
 # Use Cursor CLI instead of amp
@@ -102,7 +116,7 @@ This creates `.ralph/prd.json` with user stories structured for autonomous execu
 # Run with custom iteration limit
 ./scripts/ralph/ralph.sh --max-iterations 5
 
-# Use a custom prompt file
+# Use a custom prompt file (optional, overrides /ralph skill)
 ./scripts/ralph/ralph.sh --prompt custom-prompt.md
 
 # Combine flags (order doesn't matter)
@@ -141,7 +155,7 @@ If issues are found, run Ralph again to fix them, then review again. Repeat unti
 | File | Purpose |
 |------|---------|
 | `ralph.sh` | The bash loop that spawns fresh Amp instances |
-| `prompt.md` | Instructions given to each Amp instance |
+| `prompt.md` | Legacy prompt file (optional, script uses `/ralph` skill by default) |
 | `.ralph/prd.json` | User stories with `passes` status (the task list) |
 | `.ralph/progress.txt` | Append-only learnings for future iterations |
 | `.ralph/.last-branch` | Tracks current feature branch |
@@ -149,6 +163,7 @@ If issues are found, run Ralph again to fix them, then review again. Repeat unti
 | `prd.json.example` | Example PRD format for reference |
 | `skills/prd/` | Skill for generating PRDs |
 | `skills/prd-json/` | Skill for converting PRDs to JSON |
+| `skills/ralph/` | Skill to execute the Ralph workflow within AI chat |
 | `skills/code-review/` | Skill for reviewing code against PRD requirements |
 | `flowchart/` | Interactive visualization of how Ralph works |
 
@@ -229,9 +244,23 @@ cat .ralph/progress.txt
 git log --oneline -10
 ```
 
-## Customizing prompt.md
+## Customizing the Prompt
 
-Edit `prompt.md` to customize Ralph's behavior for your project:
+By default, `ralph.sh` uses the `/ralph` skill. To customize Ralph's behavior:
+
+**Option 1: Copy and modify the skill** (recommended for project-specific changes)
+```bash
+cp skills/ralph/SKILL.md custom-prompt.md
+# Edit custom-prompt.md with your changes
+./ralph.sh --prompt custom-prompt.md
+```
+
+**Option 2: Use the legacy prompt.md**
+```bash
+./ralph.sh --prompt prompt.md
+```
+
+Customization ideas:
 - Add project-specific quality check commands
 - Include codebase conventions
 - Add common gotchas for your stack

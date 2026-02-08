@@ -8,8 +8,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Defaults
 MAX_ITERATIONS=10
-PROMPT_FILE="$SCRIPT_DIR/prompt.md"
+PROMPT_FILE=""
 TOOL="amp"
+DEFAULT_PROMPT="Use the /ralph skill to execute the ralph workflow exactly ONCE"
 
 # Help function
 show_help() {
@@ -19,13 +20,13 @@ Ralph Wiggum - Long-running AI agent loop
 Usage: ./ralph.sh [OPTIONS]
 
 Options:
-  --prompt <file>         Path to prompt file (default: prompt.md in script directory)
+  --prompt <file>         Path to prompt file (optional, uses /ralph skill by default)
   --max-iterations <n>    Maximum number of iterations (default: 10)
   --tool <tool>           CLI tool to use: amp or cursor (default: amp)
   -h, --help              Show this help message and exit
 
 Examples:
-  ./ralph.sh                                    # Use defaults (amp)
+  ./ralph.sh                                    # Run with defaults (amp tool, default prompt, 10 iterations)
   ./ralph.sh --tool cursor                      # Use Cursor CLI instead of amp
   ./ralph.sh --max-iterations 5                 # Run max 5 iterations
   ./ralph.sh --prompt custom.md                 # Use custom prompt file
@@ -71,11 +72,21 @@ if [[ "$TOOL" != "amp" && "$TOOL" != "cursor" ]]; then
   exit 1
 fi
 
-# Validate prompt file exists
-if [ ! -f "$PROMPT_FILE" ]; then
+# Validate prompt file exists (only if explicitly provided)
+if [[ -n "$PROMPT_FILE" ]] && [ ! -f "$PROMPT_FILE" ]; then
   echo "Error: Prompt file not found: $PROMPT_FILE" >&2
   exit 1
 fi
+
+# Determine the prompt to use
+if [[ -n "$PROMPT_FILE" ]]; then
+  PROMPT_CONTENT=$(cat "$PROMPT_FILE")
+  echo "Using prompt file: $PROMPT_FILE"
+else
+  PROMPT_CONTENT="$DEFAULT_PROMPT"
+  echo "Using /ralph skill"
+fi
+
 # Check for .ralph/prd.json
 if [ ! -f ".ralph/prd.json" ]; then
   echo "Error: .ralph/prd.json not found. Run from your project root where .ralph/prd.json lives." >&2
@@ -92,12 +103,12 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   
   # Run the specified tool
   if [[ "$TOOL" == "amp" ]]; then
-    OUTPUT=$(cat "$PROMPT_FILE" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
+    OUTPUT=$(echo "$PROMPT_CONTENT" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
   elif [[ "$TOOL" == "cursor" ]]; then
     # --sandbox enabled: restricts file access to workspace only
     # --workspace: explicitly sets workspace to current directory
     # -f: auto-approve commands (within sandbox restrictions)
-    OUTPUT=$(agent -p -f --sandbox enabled --approve-mcps --workspace "$(pwd)" --model "opus-4.5-thinking" "$(cat "$PROMPT_FILE")" 2>&1 | tee /dev/stderr) || true
+    OUTPUT=$(agent -p -f --sandbox enabled --approve-mcps --workspace "$(pwd)" --model "opus-4.5-thinking" "$PROMPT_CONTENT" 2>&1 | tee /dev/stderr) || true
   fi
   
   # Check for completion signal

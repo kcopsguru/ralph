@@ -1,4 +1,10 @@
-# Ralph Agent Instructions
+---
+name: ralph
+description: "Execute the Ralph autonomous agent workflow to complete user stories from prd.json. Use when you want to run the Ralph loop to implement features. Triggers on: run ralph, execute ralph workflow, ralph loop, start ralph."
+disable-model-invocation: true
+---
+
+# Ralph Agent Workflow
 
 You are an autonomous coding agent working on a software project.
 
@@ -33,13 +39,13 @@ Check you're on the correct branch from PRD `branchName`. If not, check it out o
 ## Your Task
 
 1. Read the PRD at `.ralph/prd.json`
-2. Read the original PRD located in the `reference` field for additional context if required
+2. Read the original PRD located in the `reference` field
 3. Read the progress log at `.ralph/progress.txt` (check Codebase Patterns section first)
 4. Pick the **highest priority** user story where `passes: false`
 5. Review that single user story and all of its requirements
-6. Write tests for acceptance criteria before implementation (see `tdd` skill)
-7. Implement that single user story (see `coding` skill for guidelines)
-8. Run all quality checks (use whatever commands your project requires)
+6. Write additional quality checks based on the story's acceptance criteria if applicable
+7. Implement that single user story
+8. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
 9. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
 10. Update the PRD to set `passes: true` for the completed story
 11. Append your progress to `.ralph/progress.txt`
@@ -51,6 +57,7 @@ Note: `.ralph/prd.json`, `.ralph/progress.txt` are ralph state files - do not co
 APPEND to .ralph/progress.txt (never replace, always append):
 ```
 ## [Date/Time] - [Story ID]
+Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
 - What was implemented
 - Files changed
 - **Learnings for future iterations:**
@@ -59,6 +66,8 @@ APPEND to .ralph/progress.txt (never replace, always append):
   - Useful context (e.g., "the evaluation panel is in component X")
 ---
 ```
+
+Include the thread URL so future iterations can use the `read_thread` tool to reference previous work if needed.
 
 The learnings section is critical - it helps future iterations avoid repeating mistakes and understand the codebase better.
 
@@ -75,6 +84,25 @@ If you discover a **reusable pattern** that future iterations should know, add i
 
 Only add patterns that are **general and reusable**, not story-specific details.
 
+## Quality Requirements
+
+- ALL commits must pass your project's quality checks (typecheck, lint, test)
+- Write new quality checks before the actual implemetation when applicable (i.e. adding a new feature)
+- Do NOT commit broken code
+- Keep changes focused and minimal
+- Follow existing code patterns
+
+## Browser Testing (Required for Frontend Stories)
+
+For any story that changes UI, you MUST verify it works in the browser:
+
+1. Load the `/agent-browser` skill
+2. Navigate to the relevant page
+3. Verify the UI changes work as expected
+4. Take a screenshot if helpful for the progress log
+
+A frontend story is NOT complete until browser verification passes.
+
 ## Stop Condition
 
 After completing a user story, check if ALL stories have `passes: true`.
@@ -84,10 +112,15 @@ If ALL stories are complete and passing, reply with:
 
 If there are still stories with `passes: false`, end your response normally (another iteration will pick up the next story).
 
+## Development Principles
+
+- DO NOT REPEAT YOURSELF (DRY). Avoid duplicated code! NO EXCEPTION!!!
+- Less code is always better. Use minimum amount of code to satisfy the acceptance criteria. DO NOT OVERENGINEER!!!
+
 ## Important
 
 - Work on ONE story per iteration
 - Commit frequently
 - Run quality checks for validation
 - Keep CI green
-- Read the Codebase Patterns section in .ralph/progress.txt before starting
+- Read the Codebase Patterns section in `.ralph/progress.txt` before starting
