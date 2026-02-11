@@ -1,6 +1,7 @@
 ---
 name: tdd
 description: Enforces test-driven development with 80%+ coverage. Use when implementing new features, fixing bugs, refactoring code, or adding API endpoints. Guides through Red-Green-Refactor cycle with unit, integration, and E2E tests.
+disable-model-invocation: true
 ---
 
 # Test-Driven Development
@@ -36,13 +37,13 @@ describe('calculateLiquidityScore', () => {
       bidAskSpread: 0.01,
       activeTraders: 500
     }
-    
+
     const score = calculateLiquidityScore(market)
-    
+
     expect(score).toBeGreaterThan(80)
     expect(score).toBeLessThanOrEqual(100)
   })
-  
+
   it('handles zero volume edge case', () => {
     const market = { totalVolume: 0, bidAskSpread: 0, activeTraders: 0 }
     expect(calculateLiquidityScore(market)).toBe(0)
@@ -62,11 +63,11 @@ npm test
 ```typescript
 export function calculateLiquidityScore(market: MarketData): number {
   if (market.totalVolume === 0) return 0
-  
+
   const volumeScore = Math.min(market.totalVolume / 1000, 100)
   const spreadScore = Math.max(100 - (market.bidAskSpread * 1000), 0)
   const traderScore = Math.min(market.activeTraders / 10, 100)
-  
+
   return (volumeScore * 0.4 + spreadScore * 0.4 + traderScore * 0.2)
 }
 ```
@@ -121,13 +122,13 @@ describe('calculateSimilarity', () => {
     const embedding = [0.1, 0.2, 0.3]
     expect(calculateSimilarity(embedding, embedding)).toBe(1.0)
   })
-  
+
   it('returns 0.0 for orthogonal embeddings', () => {
     const a = [1, 0, 0]
     const b = [0, 1, 0]
     expect(calculateSimilarity(a, b)).toBe(0.0)
   })
-  
+
   it('throws for null input', () => {
     expect(() => calculateSimilarity(null, [])).toThrow()
   })
@@ -147,15 +148,15 @@ describe('GET /api/markets/search', () => {
     const request = new NextRequest('http://localhost/api/markets/search?q=test')
     const response = await GET(request, {})
     const data = await response.json()
-    
+
     expect(response.status).toBe(200)
     expect(data.success).toBe(true)
   })
-  
+
   it('returns 400 for missing query', async () => {
     const request = new NextRequest('http://localhost/api/markets/search')
     const response = await GET(request, {})
-    
+
     expect(response.status).toBe(400)
   })
 })
@@ -170,13 +171,13 @@ import { test, expect } from '@playwright/test'
 
 test('user can search and view market', async ({ page }) => {
   await page.goto('/')
-  
+
   await page.fill('input[placeholder="Search"]', 'election')
   await page.waitForTimeout(600) // Debounce
-  
+
   const results = page.locator('[data-testid="result-card"]')
   await expect(results).toHaveCount(5, { timeout: 5000 })
-  
+
   await results.first().click()
   await expect(page).toHaveURL(/\/markets\//)
 })

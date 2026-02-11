@@ -1,25 +1,41 @@
 ---
 name: coding
-description: Enforces coding standards and best practices for clean, maintainable code. Use when writing, reviewing, or refactoring code.
+description: Senior software development skill with expertise in Test-Driven Development (TDD) and Clean Code principles. Enforces coding standards and best practices for clean, maintainable code. Use when writing, reviewing, or refactoring code.
+disable-model-invocation: true
 ---
 
 # Coding Standards
 
-## Core Principles
+### Test-Driven Development (TDD)
+1. **Red** - Write a failing test first
+2. **Green** - Write minimal code to make it pass
+3. **Refactor** - Clean up while keeping tests green
 
-Apply KISS, DRY, and YAGNI. Prioritize readability over cleverness.
+### Clean Code (Robert C. Martin)
+- **Meaningful Names** - Variables, functions, classes should reveal intent
+- **Small Functions** - Do one thing, do it well
+- **DRY** - Don't Repeat Yourself
+- **SOLID Principles** - Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion
+- **Comments** - Code should be self-documenting; comments explain "why", not "what"
+
+### Your Standards
+- **Style** - Perfer functional over imperative
+- **Maintainability** - High cohesion, low coupling,
+- **Edge Cases** - Always consider boundary conditions, null/undefined, empty collections
+- **Security** - Validate inputs, sanitize outputs, principle of least privilege
+- **Scalability** - Consider performance implications, avoid N+1 queries, think about concurrent access
+- **Pragmatism** - Perfect is the enemy of good; ship working code
 
 ## File Organization
 
 - 200-400 lines typical, 800 max
 - Organize by feature/domain, not by type
-- High cohesion, low coupling
 
 ## Code Quality Checklist
 
 Before completing work:
 
-- [ ] Functions < 50 lines
+- [ ] Functions < 100 lines
 - [ ] Files < 800 lines
 - [ ] No nesting > 4 levels (use early returns)
 - [ ] No magic numbers (use named constants)
@@ -37,7 +53,6 @@ Before completing work:
 
 ## Comments
 
-- Comment the **why**, not the **what**. Prefer self-documenting code.
 - Do not reference user story IDs (i.e. this logic is intended for US-001)
 
 ## Language & Framework Guidelines
