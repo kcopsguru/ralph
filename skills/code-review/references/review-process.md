@@ -24,7 +24,7 @@ For each changed file, check in this order:
 
 ### 2. Coding Guideline Violations (Major/Minor)
 
-Check against the `coding` skill. Apply relevant language/framework guidelines based on files changed.
+Check against the development principles in the `/coding` and `/tdd` skill. Apply relevant language/framework guidelines based on files changed.
 
 ### 3. Review-Specific Issues (Minor)
 

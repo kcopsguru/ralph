@@ -13,24 +13,26 @@ Review code changes on a feature branch against PRD requirements. Identify issue
 Copy and track your progress:
 ```
 Code Review Progress:
-- [ ] Step 1: Gather reference files
-- [ ] Step 2: Verify branch
-- [ ] Step 3: Run automated checks
-- [ ] Step 4: Review code (skip if checks failed)
-- [ ] Step 5: Interactive review with user
-- [ ] Step 6: Convert confirmed issues to stories
-- [ ] Step 7: Update prd.json
+- [ ] Step 1: Load the required skills
+- [ ] Step 2: Gather reference files
+- [ ] Step 3: Verify branch
+- [ ] Step 4: Run automated checks
+- [ ] Step 5: Review code (skip if checks failed)
+- [ ] Step 6: Interactive review with user
+- [ ] Step 7: Convert confirmed issues to stories
+- [ ] Step 8: Update prd.json
 ```
 
 ## Workflow
 
-1. **Gather references** - Read files listed below
-2. **Verify branch** - See [references/branch-verification.md](references/branch-verification.md)
-3. **Run automated checks** - See [references/automated-checks.md](references/automated-checks.md)
-4. **Review code** - See [references/review-process.md](references/review-process.md) (skip if checks failed)
-5. **Interactive review** - See [references/interactive-review.md](references/interactive-review.md) (user confirms/dismisses issues)
-6. **Convert confirmed issues to stories** - See [references/story-format.md](references/story-format.md)
-7. **Update prd.json** - Append confirmed stories, never modify existing ones
+1. **Load the required skills** - Load the `/coding` and `/tdd` skill and read the development principles
+2. **Gather references** - Read files listed below
+3. **Verify branch** - See [references/branch-verification.md](references/branch-verification.md)
+4. **Run automated checks** - See [references/automated-checks.md](references/automated-checks.md)
+5. **Review code** - See [references/review-process.md](references/review-process.md) (skip if checks failed)
+6. **Interactive review** - See [references/interactive-review.md](references/interactive-review.md) (user confirms/dismisses issues)
+7. **Convert confirmed issues to stories** - See [references/story-format.md](references/story-format.md)
+8. **Update prd.json** - Append confirmed stories, never modify existing ones
 
 ## Step 1: Gather Reference Files
 
