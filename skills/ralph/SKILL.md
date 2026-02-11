@@ -36,6 +36,13 @@ If `.ralph/progress.txt` doesn't exist (and wasn't just reset above), create it 
 ### 4. Git Branch
 Check you're on the correct branch from PRD `branchName`. If not, check it out or create from main.
 
+### 5. Load Development Skills (REQUIRED)
+Before implementing any code, you MUST load and read these skills:
+- `/coding` - Clean code principles, coding standards, quality checklist
+- `/tdd` - Test-driven development workflow, coverage requirements
+
+These skills contain the development principles you MUST follow during implementation.
+
 ## Your Task
 
 1. Read the PRD at `.ralph/prd.json`
@@ -43,9 +50,9 @@ Check you're on the correct branch from PRD `branchName`. If not, check it out o
 3. Read the progress log at `.ralph/progress.txt` (check Codebase Patterns section first)
 4. Pick the **highest priority** user story where `passes: false`
 5. Review that single user story and all of its requirements
-6. Write additional quality checks based on the story's acceptance criteria if applicable
-7. Implement that single user story
-8. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
+6. Implement the user story by following TDD (Red-Green-Refactor) and the principles from `/coding` and `/tdd` skills
+7. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
+8. Do a self-review on all the changes, refactor the code if necessary, keep all checks pass
 9. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
 10. Update the PRD to set `passes: true` for the completed story
 11. Append your progress to `.ralph/progress.txt`
@@ -119,3 +126,4 @@ If there are still stories with `passes: false`, end your response normally (ano
 - Run quality checks for validation
 - Keep CI green
 - Read the Codebase Patterns section in `.ralph/progress.txt` before starting
+- MUST load `/coding` and `/tdd` skills before implementing (Setup Step 5)
