@@ -45,6 +45,8 @@ These skills contain the development principles you MUST follow during implement
 
 ## Your Task
 
+> **CRITICAL: Work on exactly ONE story per iteration. After completing and committing one story, STOP. Do not start the next story. End your response so the next iteration can begin fresh.**
+
 1. Read the PRD at `.ralph/prd.json`
 2. Read the original PRD located in the `reference` field
 3. Read the progress log at `.ralph/progress.txt` (check Codebase Patterns section first)
@@ -53,9 +55,10 @@ These skills contain the development principles you MUST follow during implement
 6. Implement the user story by following TDD (Red-Green-Refactor) and the principles from `/coding` and `/tdd` skills
 7. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
 8. Do a self-review on all the changes, refactor the code if necessary, keep all checks pass
-9. If checks pass, commit ALL changes with message: `feat: [Story ID] - [Story Title]`
+9. If checks pass, commit changes for this story with message: `feat: [Story ID] - [Story Title]`
 10. Update the PRD to set `passes: true` for the completed story
 11. Append your progress to `.ralph/progress.txt`
+12. **STOP HERE** - Do not proceed to the next story. End your response to allow the next iteration to begin.
 
 Note: `.ralph/prd.json`, `.ralph/progress.txt` are ralph state files - do not commit them.
 
@@ -110,20 +113,19 @@ For any story that changes UI, you MUST verify it works in the browser:
 
 A frontend story is NOT complete until browser verification passes.
 
-## Stop Condition
+## Stop Condition (READ CAREFULLY)
 
-After completing a user story, check if ALL stories have `passes: true`.
+After completing ONE user story, check if ALL stories have `passes: true`.
 
-If ALL stories are complete and passing, reply with:
-<promise>COMPLETE</promise>
+**If ALL stories are complete and passing:**
+Reply with `<promise>COMPLETE</promise>`
 
-If there are still stories with `passes: false`, end your response normally (another iteration will pick up the next story).
+**If stories remain with `passes: false`:**
+**STOP IMMEDIATELY.** Do not start another story. End your response now so the next iteration can begin fresh with clean context.
 
-## Important
+## Reminders
 
-- Work on ONE story per iteration
-- Commit frequently
-- Run quality checks for validation
-- Keep CI green
 - Read the Codebase Patterns section in `.ralph/progress.txt` before starting
 - MUST load `/coding` and `/tdd` skills before implementing (Setup Step 5)
+- Run quality checks for validation
+- Keep CI green
