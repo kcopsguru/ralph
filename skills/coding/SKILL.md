@@ -4,7 +4,7 @@ description: Senior software development skill with expertise in Test-Driven Dev
 disable-model-invocation: true
 ---
 
-# Coding Standards
+## Coding Standards
 
 ### Test-Driven Development (TDD)
 1. **Red** - Write a failing test first
@@ -19,7 +19,7 @@ disable-model-invocation: true
 - **Comments** - Code should be self-documenting; comments explain "why", not "what"
 
 ### Your Standards
-- **Style** - Perfer functional over imperative
+- **Coding Style** - Perfer functional over imperative, less code is better, DO NOT OVERENGINEER!!!
 - **Maintainability** - High cohesion, low coupling,
 - **Edge Cases** - Always consider boundary conditions, null/undefined, empty collections
 - **Security** - Validate inputs, sanitize outputs, principle of least privilege

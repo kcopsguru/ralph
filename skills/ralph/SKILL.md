@@ -112,11 +112,6 @@ If ALL stories are complete and passing, reply with:
 
 If there are still stories with `passes: false`, end your response normally (another iteration will pick up the next story).
 
-## Development Principles
-
-- DO NOT REPEAT YOURSELF (DRY). Avoid duplicated code! NO EXCEPTION!!!
-- Less code is always better. Use minimum amount of code to satisfy the acceptance criteria. DO NOT OVERENGINEER!!!
-
 ## Important
 
 - Work on ONE story per iteration
