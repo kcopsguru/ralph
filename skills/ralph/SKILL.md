@@ -58,7 +58,9 @@ These skills contain the development principles you MUST follow during implement
 9. If checks pass, commit changes for this story with message: `feat: [Story ID] - [Story Title]`
 10. Update the PRD to set `passes: true` for the completed story
 11. Append your progress to `.ralph/progress.txt`
-12. **STOP HERE** - Do not proceed to the next story. End your response to allow the next iteration to begin.
+12. **Check completion and STOP:**
+    - If ALL stories now have `passes: true`: Reply with `<promise>COMPLETE</promise>` and end your response
+    - If stories remain with `passes: false`: End your response now (do NOT start another story - next iteration will continue)
 
 Note: `.ralph/prd.json`, `.ralph/progress.txt` are ralph state files - do not commit them.
 
@@ -113,15 +115,11 @@ For any story that changes UI, you MUST verify it works in the browser:
 
 A frontend story is NOT complete until browser verification passes.
 
-## Stop Condition (READ CAREFULLY)
+## Stop Condition (See Step 12)
 
-After completing ONE user story, check if ALL stories have `passes: true`.
-
-**If ALL stories are complete and passing:**
-Reply with `<promise>COMPLETE</promise>`
-
-**If stories remain with `passes: false`:**
-**STOP IMMEDIATELY.** Do not start another story. End your response now so the next iteration can begin fresh with clean context.
+This is handled in Step 12 of Your Task. After completing a story:
+- ALL stories `passes: true` → Reply with `<promise>COMPLETE</promise>`
+- Stories remain with `passes: false` → End response (next iteration continues)
 
 ## Reminders
 
@@ -129,3 +127,4 @@ Reply with `<promise>COMPLETE</promise>`
 - MUST load `/coding` and `/tdd` skills before implementing (Setup Step 5)
 - Run quality checks for validation
 - Keep CI green
+- **Output `<promise>COMPLETE</promise>` when ALL stories pass** (Step 12)

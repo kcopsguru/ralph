@@ -67,11 +67,10 @@ npm run dev
 
 After Ralph completes all stories, run `/code-review` to validate the implementation:
 
-1. **Automated checks first** - Runs typecheck, lint, build, test. Failures become critical fix stories.
-2. **Manual review** - Reviews `git diff main...HEAD` against PRD requirements.
-3. **Issue identification** - Categorizes as: Automated Check Failures, Requirements Deviations, or Code Quality Issues.
-4. **Interactive confirmation** - User confirms, modifies, or dismisses each issue.
-5. **Fix stories added** - Confirmed issues become new stories in `.ralph/prd.json` with `[FIX]` or `[QUALITY]` prefixes.
+1. **Manual review** - Reviews `git diff main...HEAD` against PRD requirements.
+2. **Issue identification** - Categorizes as: Requirements Deviations or Code Quality Issues.
+3. **Interactive confirmation** - User confirms, modifies, or dismisses each issue.
+4. **Fix stories added** - Confirmed issues become new stories in `.ralph/prd.json` with `[FIX]` or `[QUALITY]` prefixes.
 
 The review cycle repeats until no issues are found:
 - Run `/code-review`

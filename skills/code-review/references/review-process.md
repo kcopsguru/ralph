@@ -1,6 +1,6 @@
 # Review Process
 
-Manual review after automated checks pass.
+Manual review of code changes against PRD requirements.
 
 ## Get Changes
 
@@ -37,7 +37,6 @@ Check against the development principles in the `/coding` and `/tdd` skill. Appl
 
 | Category | Prefix | Examples |
 |----------|--------|----------|
-| Automated Check Failure | `[FIX]` | Build errors, test failures, lint errors |
 | Requirements Deviation | `[FIX]` | AC not met, missing functionality, wrong behavior |
 | Coding Guideline Violation | `[QUALITY]` | Mutation, missing error handling, any types |
 | Code Quality Issue | `[QUALITY]` | DRY violations, overengineering, dead code |
@@ -46,8 +45,6 @@ Check against the development principles in the `/coding` and `/tdd` skill. Appl
 
 | Severity | Priority | Description |
 |----------|----------|-------------|
-| Critical | 1-2 | Blocks functionality, fails checks, security issue |
+| Critical | 1-2 | Blocks functionality, security issue |
 | Major | 3+ | Significant quality issue, coding guideline violation |
 | Minor | Last | Improvement opportunity, style preference |
-
-Automated check failures are always Critical with highest priority.

@@ -16,11 +16,10 @@ Code Review Progress:
 - [ ] Step 1: Load the required skills
 - [ ] Step 2: Gather reference files
 - [ ] Step 3: Verify branch
-- [ ] Step 4: Run automated checks
-- [ ] Step 5: Review code (skip if checks failed)
-- [ ] Step 6: Interactive review with user
-- [ ] Step 7: Convert confirmed issues to stories
-- [ ] Step 8: Update prd.json
+- [ ] Step 4: Review code
+- [ ] Step 5: Interactive review with user
+- [ ] Step 6: Convert confirmed issues to stories
+- [ ] Step 7: Update prd.json
 ```
 
 ## Workflow
@@ -28,11 +27,10 @@ Code Review Progress:
 1. **Load the required skills** - Load the `/coding` and `/tdd` skill and read the development principles
 2. **Gather references** - Read files listed below
 3. **Verify branch** - See [references/branch-verification.md](references/branch-verification.md)
-4. **Run automated checks** - See [references/automated-checks.md](references/automated-checks.md)
-5. **Review code** - See [references/review-process.md](references/review-process.md) (skip if checks failed)
-6. **Interactive review** - See [references/interactive-review.md](references/interactive-review.md) (user confirms/dismisses issues)
-7. **Convert confirmed issues to stories** - See [references/story-format.md](references/story-format.md)
-8. **Update prd.json** - Append confirmed stories, never modify existing ones
+4. **Review code** - See [references/review-process.md](references/review-process.md)
+5. **Interactive review** - See [references/interactive-review.md](references/interactive-review.md) (user confirms/dismisses issues)
+6. **Convert confirmed issues to stories** - See [references/story-format.md](references/story-format.md)
+7. **Update prd.json** - Append confirmed stories, never modify existing ones
 
 ## Step 1: Gather Reference Files
 
@@ -44,7 +42,6 @@ Read these files before reviewing:
 | Original PRD (from `reference` field) | Detailed requirements context |
 | `README.md` | Project conventions |
 | `docs/` folder (if exists) | Additional documentation |
-| `skills/coding/` | Coding standards (read relevant files based on languages used) |
 
 If no `docs/` folder exists, ask:
 ```
@@ -56,9 +53,13 @@ Type paths or "none" to proceed.
 
 Follow the reference files in order. Key decision points:
 
-- **After Step 3**: If automated checks fail → skip Step 4, go directly to Step 5
 - **Step 5**: User confirms, modifies, or dismisses each issue
 - **Step 6-7 rules**: Convert only confirmed issues, append only, sequential IDs, preserve existing fields, never modify original PRD
+
+**IMPORTANT**
+
+- Never modify existing stories in prd.json (including their `passes` status)
+- If a completed story has a bug, create a new [FIX] story - don't change the original
 
 ## Completion
 
