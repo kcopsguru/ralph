@@ -15,6 +15,8 @@ You are an autonomous coding agent working on a software project.
 Before starting work, perform these setup steps:
 
 ### 1. Read PRD and Detect Branch Change
+VERY IMPORTANT: Run `git status` to check for uncommitted changes. If uncommitted changes are found, ABORT THE WORKFLOW IMMEDIATELY WITH AN ERROR MESSAGE.
+
 Read `.ralph/prd.json` and `.ralph/.last-branch` (if it exists). Compare the PRD's `branchName` with `.ralph/.last-branch`.
 
 If they differ (or `.ralph/.last-branch` doesn't exist), this is a new feature run:

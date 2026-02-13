@@ -35,6 +35,7 @@ Found 2 critical, 3 major, 8 minor. Process critical+major first? (y/n)
 ## Update prd.json
 
 After confirmation:
-- Append only, never modify existing stories
+- Append only, NEVER MODIFY EXISTING STORIES (INCLUDING NOTES)
+- If the new story changes the requirements of previous stories, document this in the new story's notes
 - Preserve all fields (project, branchName, description, reference)
 - Report: "Stories before: 10, Adding: 3, After: 13"

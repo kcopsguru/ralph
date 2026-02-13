@@ -30,7 +30,7 @@ Code Review Progress:
 4. **Review code** - See [references/review-process.md](references/review-process.md)
 5. **Interactive review** - See [references/interactive-review.md](references/interactive-review.md) (user confirms/dismisses issues)
 6. **Convert confirmed issues to stories** - See [references/story-format.md](references/story-format.md)
-7. **Update prd.json** - Append confirmed stories, never modify existing ones
+7. **Update prd.json** - Append confirmed stories, NEVER MODIFY EXISTING ONES!!!
 
 ## Step 1: Gather Reference Files
 
@@ -58,7 +58,7 @@ Follow the reference files in order. Key decision points:
 
 **IMPORTANT**
 
-- Never modify existing stories in prd.json (including their `passes` status)
+- NEVER MODIFY EXISTING STORIES in prd.json (including their `passes` status and notes)
 - If a completed story has a bug, create a new [FIX] story - don't change the original
 
 ## Completion

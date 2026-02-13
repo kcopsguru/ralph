@@ -82,7 +82,6 @@ Each story should be small enough to implement in one focused session.
 **Acceptance Criteria:**
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
-- [ ] **[DEV stories only]** Write unit tests for acceptance criteria checks whenever possible
 - [ ] **[UI stories only]** Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `[discovered check command]`
 ```
@@ -90,7 +89,6 @@ Each story should be small enough to implement in one focused session.
 **Important:**
 - When writing acceptance criteria, only include deliverables the user explicitly requested. If you believe additional deliverables are needed (scripts, documentation, tooling), ask the user first—do not add them to the PRD.
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
-- **For any story with code changes:** Always include "Write unit tests for acceptance criteria checks whenever possible" to ensure TDD workflow.
 - **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
 - **Use project-specific checks:** Discover what checks the project actually uses and include the exact command. See "Discovering Project Checks" below.
 - **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria to avoid over-optimization. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
@@ -214,7 +212,6 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 **Acceptance Criteria:**
 - [ ] Each task card shows colored priority badge (red=high, yellow=medium, gray=low)
 - [ ] Priority visible without hovering or clicking
-- [ ] Write unit tests for acceptance criteria checks whenever possible
 - [ ] Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `npm run ci`
 
@@ -225,7 +222,6 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Priority dropdown in task edit modal
 - [ ] Shows current priority as selected
 - [ ] Saves immediately on selection change
-- [ ] Write unit tests for acceptance criteria checks whenever possible
 - [ ] Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `npm run ci`
 
@@ -236,7 +232,6 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Filter dropdown with options: All | High | Medium | Low
 - [ ] Filter persists in URL params
 - [ ] Empty state message when no tasks match filter
-- [ ] Write unit tests for acceptance criteria checks whenever possible
 - [ ] Write e2e test scripts using /agent-browser skill
 - [ ] All checks pass: `npm run ci`
 
