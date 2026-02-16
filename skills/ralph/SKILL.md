@@ -57,10 +57,11 @@ These skills contain the development principles you MUST follow during implement
 6. Implement the user story by following TDD (Red-Green-Refactor) and the principles from `/coding` and `/tdd` skills
 7. Run all quality checks (e.g., typecheck, lint, test - use whatever your project requires)
 8. Do a self-review on all the changes, refactor the code if necessary, keep all checks pass
-9. If checks pass, commit changes for this story with message: `feat: [Story ID] - [Story Title]`
-10. Update the PRD to set `passes: true` for the completed story
-11. Append your progress to `.ralph/progress.txt`
-12. **Check completion and STOP:**
+9. If checks pass, commit changes for this story with message: `feat: [Story ID] - [Story Title]`. Make sure to include all changes including new, untracked files
+10. Run `git status` to verify that all changes have been comitted
+11. Update the PRD to set `passes: true` for the completed story
+12. Append your progress to `.ralph/progress.txt`
+13. **Check completion and STOP:**
     - If ALL stories now have `passes: true`: Reply with `<promise>COMPLETE</promise>` and end your response
     - If stories remain with `passes: false`: End your response now (do NOT start another story - next iteration will continue)
 
@@ -101,7 +102,6 @@ Only add patterns that are **general and reusable**, not story-specific details.
 ## Quality Requirements
 
 - ALL commits must pass your project's quality checks (typecheck, lint, test)
-- Write new quality checks before the actual implemetation when applicable (i.e. adding a new feature)
 - Do NOT commit broken code
 - Keep changes focused and minimal
 - Follow existing code patterns
@@ -129,4 +129,5 @@ This is handled in Step 12 of Your Task. After completing a story:
 - MUST load `/coding` and `/tdd` skills before implementing (Setup Step 5)
 - Run quality checks for validation
 - Keep CI green
+- Commit all changes
 - **Output `<promise>COMPLETE</promise>` when ALL stories pass** (Step 12)
