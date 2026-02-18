@@ -89,6 +89,7 @@ Each story should be small enough to implement in one focused session.
 **Important:**
 - When writing acceptance criteria, only include deliverables the user explicitly requested. If you believe additional deliverables are needed (scripts, documentation, tooling), ask the user first—do not add them to the PRD.
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
+- Acceptance criteria should focus on functional behaviors, not implementation details.
 - **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
 - **Use project-specific checks:** Discover what checks the project actually uses and include the exact command. See "Discovering Project Checks" below.
 - **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria to avoid over-optimization. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
