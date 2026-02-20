@@ -1,5 +1,5 @@
 ---
-name: testing-code
+name: tdd
 description: Enforces test-driven development with 80%+ coverage. Use when implementing features, fixing bugs, refactoring, or adding API endpoints. Guides Red-Green-Refactor cycle.
 disable-model-invocation: true
 ---
