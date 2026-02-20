@@ -164,24 +164,60 @@ describe('GET /api/markets/search', () => {
 
 ### 3. E2E Tests (For Critical Flows)
 
-Test complete user journeys with Playwright:
+Test complete user journeys - focus on **UI behavior and workflows**, not data content.
+
+**What E2E tests SHOULD verify:**
+- UI components appear/disappear correctly
+- User interactions work (click, type, keyboard navigation)
+- Navigation flows complete successfully
+- Error states display appropriately
+
+**What E2E tests should NOT verify:**
+- Specific data values (file names, item counts, exact text content from arrays)
+- Implementation details that may change
+- Every item in a list - just verify the list appears
 
 ```typescript
 import { test, expect } from '@playwright/test'
 
-test('user can search and view market', async ({ page }) => {
+test('user can search and view results', async ({ page }) => {
   await page.goto('/')
 
-  await page.fill('input[placeholder="Search"]', 'election')
+  await page.fill('input[placeholder="Search"]', 'test query')
   await page.waitForTimeout(600) // Debounce
 
+  // GOOD: Verify results appear (behavior)
   const results = page.locator('[data-testid="result-card"]')
-  await expect(results).toHaveCount(5, { timeout: 5000 })
+  await expect(results.first()).toBeVisible({ timeout: 5000 })
 
+  // GOOD: Verify interaction works
   await results.first().click()
   await expect(page).toHaveURL(/\/markets\//)
 })
+
+// BAD: Don't test specific data content
+test.skip('verify specific items in list', async ({ page }) => {
+  // DON'T: Test specific hardcoded values
+  await expect(page.getByText('specific-file.pdf')).toBeVisible()
+  await expect(page.getByText('another-item.docx')).toBeVisible()
+  // This breaks when data changes and tests implementation, not behavior
+})
 ```
+
+## E2E Test Scope Guidelines
+
+E2E tests are expensive (slow, flaky, hard to maintain). Focus them on **critical UI workflows**, not data verification.
+
+| Test This (Behavior) | Don't Test This (Data) |
+|---------------------|------------------------|
+| Popup appears when triggered | Specific items in the popup |
+| Filtering reduces visible items | Which specific items remain |
+| Selection inserts reference | Exact text of the reference |
+| Keyboard navigation works | Order of items in list |
+| Error state displays | Exact error message text |
+| Form submits successfully | Specific form field values |
+
+**Rule of thumb**: If changing a hardcoded array or config would break your E2E test, you're testing data, not behavior. Refactor the test to verify the interaction pattern instead.
 
 ## Test File Organization
 
@@ -265,6 +301,39 @@ await page.click('.css-class-xyz')
 // Resilient to changes
 await page.click('button:has-text("Submit")')
 await page.click('[data-testid="submit-button"]')
+```
+
+### ❌ E2E Tests That Verify Specific Data Content
+
+```bash
+# DON'T: Test specific file names/items from hardcoded arrays
+if echo "$SNAPSHOT" | grep -q "guidelines.pdf"; then
+if echo "$SNAPSHOT" | grep -q "underwriting-manual.docx"; then
+# This couples tests to data that may change
+# If you update the array, the test breaks
+```
+
+### ✅ E2E Tests That Verify UI Behavior
+
+```bash
+# DO: Test that the popup appears with items (any items)
+# Test that filtering reduces visible items
+# Test that selection inserts something into input
+# Test keyboard/mouse interactions work
+
+# Example: Verify popup has items (behavior), not which items (data)
+ITEM_COUNT=$(echo "$SNAPSHOT" | grep -c "listitem")
+if [ "$ITEM_COUNT" -gt 0 ]; then
+    echo "PASS: Popup displays items"
+fi
+
+# Example: Verify filtering works (behavior), not specific filtered results
+BEFORE_COUNT=$(get_item_count)
+browser_cmd type "$INPUT_REF" "filter-text"
+AFTER_COUNT=$(get_item_count)
+if [ "$AFTER_COUNT" -lt "$BEFORE_COUNT" ]; then
+    echo "PASS: Filtering reduces item count"
+fi
 ```
 
 ## Quality Checklist
