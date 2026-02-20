@@ -114,7 +114,7 @@ Each story should be small enough to implement in one focused session.
 **Important:**
 - When writing acceptance criteria, only include deliverables the user explicitly requested. If you believe additional deliverables are needed (scripts, documentation, tooling), ask the user first—do not add them to the PRD.
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
-- Acceptance criteria should focus on functional behaviors, not implementation details.
+- Acceptance criteria should focus on functional behaviors, not implementation details. **Do not specify exact UI text/copy** (e.g., error messages, button labels, placeholder text)—these are implementation details that lead to brittle tests. Instead, describe the behavior: "Display a user-friendly error message" not "Display error message 'Something went wrong'".
 - **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. Write and verify the new e2e test works, but don't run the full e2e suite—that happens in the final story.
 - **Use fast checks for implementation stories:** Run lint, typecheck, build, and unit tests on every story to maintain TDD discipline. See "Discovering Project Checks" below.
 - **Always add a final verification story:** Add a dedicated user story at the END of the story list. This story runs all checks (including e2e if the project has them), adds any missing e2e tests, and updates documentation before merge.
@@ -181,7 +181,7 @@ Numbered list of specific functionalities:
 - "FR-1: The system must allow users to..."
 - "FR-2: When a user clicks X, the system must..."
 
-Be explicit and unambiguous.
+Be explicit and unambiguous, but avoid specifying exact UI copy (error messages, labels, etc.). Describe the behavior, not the exact text.
 
 ### 5. Non-Goals (Out of Scope)
 What this feature will NOT include. Critical for managing scope.
