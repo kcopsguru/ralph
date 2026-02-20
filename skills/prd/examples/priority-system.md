@@ -54,6 +54,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 **Description:** As a developer, I want to verify all features work together and update documentation before merging.
 
 **Acceptance Criteria:**
+- [ ] Add any missing e2e tests for new functionality
 - [ ] All e2e tests pass: `npm run test:e2e`
 - [ ] README updated with priority feature usage
 - [ ] API docs updated if priority endpoints added

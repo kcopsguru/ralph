@@ -100,22 +100,24 @@ Each story should be small enough to implement in one focused session.
 - [ ] All checks pass: `[fast check command]`
 ```
 
-**Format for final e2e/integration test story (if slow checks exist):**
+**Format for final story (always include as the last story):**
 ```markdown
-### US-XXX: Run E2E/Integration Tests
-**Description:** As a developer, I want to verify all features work together before merging.
+### US-XXX: Final Verification and Documentation
+**Description:** As a developer, I want to verify all features work together and update documentation before merging.
 
 **Acceptance Criteria:**
-- [ ] All e2e/integration tests pass: `[full check command]`
+- [ ] Add any missing e2e tests for new functionality (if project has e2e)
+- [ ] All checks pass: `[full check command]`
+- [ ] Documentation updated (README, API docs, etc.)
 ```
 
 **Important:**
 - When writing acceptance criteria, only include deliverables the user explicitly requested. If you believe additional deliverables are needed (scripts, documentation, tooling), ask the user first—do not add them to the PRD.
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
 - Acceptance criteria should focus on functional behaviors, not implementation details.
-- **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
+- **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. Write and verify the new e2e test works, but don't run the full e2e suite—that happens in the final story.
 - **Use fast checks for implementation stories:** Run lint, typecheck, build, and unit tests on every story to maintain TDD discipline. See "Discovering Project Checks" below.
-- **Add final e2e story if slow checks exist:** If the project has e2e or integration tests, add a dedicated user story at the END of the story list to run the full check suite. This ensures comprehensive testing once all features are complete without slowing down each iteration.
+- **Always add a final verification story:** Add a dedicated user story at the END of the story list. This story runs all checks (including e2e if the project has them), adds any missing e2e tests, and updates documentation before merge.
 - **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria to avoid over-optimization. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
 - **Each acceptance criterion should have only one possible interpretation:** If two developers could reasonably implement an AC differently, it's too ambiguous. For example, use specific verbs (add, remove, change, replace) instead of "update".
 
@@ -239,7 +241,7 @@ Before saving, verify:
 
 - [ ] User stories are small (completable in one focused session)
 - [ ] Implementation stories use fast checks only (no e2e)
-- [ ] Final e2e story added (if project has slow checks)
+- [ ] Final verification story added as the last story
 - [ ] Functional requirements are numbered and unambiguous
 - [ ] Non-goals section defines clear boundaries
 - [ ] Documentation updates included (if feature changes user-facing behavior)
