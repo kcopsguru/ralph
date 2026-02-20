@@ -8,14 +8,28 @@ disable-model-invocation: true
 
 Create detailed Product Requirements Documents that are clear, actionable, and suitable for implementation.
 
+## Contents
+
+- [Workflow](#workflow)
+- [Clarifying Questions](#step-1-clarifying-questions)
+- [PRD Structure](#step-2-prd-structure)
+- [Discovering Project Checks](#discovering-project-checks)
+- [Final Verification](#final-verification)
+- [Example PRD](examples/priority-system.md)
+
 ---
 
-## The Job
+## Workflow
 
-1. Receive a feature description from the user
-2. Ask 3-5 essential clarifying questions (with lettered options)
-3. Generate a structured PRD based on answers
-4. Save to `tasks/prd-[feature-name].md`
+Copy this checklist and track progress:
+
+```
+PRD Progress:
+- [ ] Step 1: Ask clarifying questions (with lettered options)
+- [ ] Step 2: Discover project checks (categorize fast vs slow)
+- [ ] Step 3: Generate PRD with all sections
+- [ ] Step 4: Save to tasks/prd-[feature-name].md
+```
 
 **Important:** Do NOT start implementing. Just create the PRD.
 
@@ -74,7 +88,7 @@ Each story needs:
 
 Each story should be small enough to implement in one focused session.
 
-**Format:**
+**Format for implementation stories:**
 ```markdown
 ### US-001: [Title]
 **Description:** As a [user], I want [feature] so that [benefit].
@@ -83,7 +97,16 @@ Each story should be small enough to implement in one focused session.
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
 - [ ] **[UI stories only]** Write e2e test scripts using /agent-browser skill
-- [ ] All checks pass: `[discovered check command]`
+- [ ] All checks pass: `[fast check command]`
+```
+
+**Format for final e2e/integration test story (if slow checks exist):**
+```markdown
+### US-XXX: Run E2E/Integration Tests
+**Description:** As a developer, I want to verify all features work together before merging.
+
+**Acceptance Criteria:**
+- [ ] All e2e/integration tests pass: `[full check command]`
 ```
 
 **Important:**
@@ -91,38 +114,65 @@ Each story should be small enough to implement in one focused session.
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
 - Acceptance criteria should focus on functional behaviors, not implementation details.
 - **For any story with UI changes:** Always include "Write e2e test scripts using /agent-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
-- **Use project-specific checks:** Discover what checks the project actually uses and include the exact command. See "Discovering Project Checks" below.
+- **Use fast checks for implementation stories:** Run lint, typecheck, build, and unit tests on every story to maintain TDD discipline. See "Discovering Project Checks" below.
+- **Add final e2e story if slow checks exist:** If the project has e2e or integration tests, add a dedicated user story at the END of the story list to run the full check suite. This ensures comprehensive testing once all features are complete without slowing down each iteration.
 - **NEVER use arbitrary numeric targets** like "reduce to X lines" or "under X KB" as acceptance criteria to avoid over-optimization. Instead, describe the *functional outcome* you want (e.g., "Remove X, Y, Z logic from source file" rather than "Reduce to under 50 lines").
 - **Each acceptance criterion should have only one possible interpretation:** If two developers could reasonably implement an AC differently, it's too ambiguous. For example, use specific verbs (add, remove, change, replace) instead of "update".
 
 ### Discovering Project Checks
 
-Before writing acceptance criteria, discover what automated checks the project uses. Do NOT use generic "typecheck passes" - use the actual commands.
+Before writing acceptance criteria, discover what automated checks the project uses and categorize them by execution time. This ensures fast iteration during development while maintaining full test coverage.
 
-**Where to look (in priority order):**
+**Where to look:** CI config first (`.github/workflows/*.yml`), then package manager scripts (`package.json`, `Makefile`, etc.). Look for combined scripts like `check`, `ci`, `validate` that run everything.
 
-1. **CI Configuration** - If a project has CI, it likely runs comprehensive checks. Prefer using the same commands CI uses:
-   - `.github/workflows/*.yml` - Look for `run:` commands
-   - `.gitlab-ci.yml`, `Jenkinsfile`, `.circleci/config.yml`
+**Categorizing checks by speed:**
 
-2. **Package Manager Scripts:**
-   - `package.json` scripts (Node.js)
-   - `Makefile` targets (Go, Python, C)
-   - `pyproject.toml` (Python)
-   - `Cargo.toml` (Rust)
+Classify discovered checks into two categories:
 
-3. **Common script names to look for:**
-   - Combined checks (prefer these!): `check`, `ci`, `validate`, `verify`
-   - Individual: `typecheck`, `lint`, `build`, `test`, `test:e2e`
+| Category | Examples | When to Run |
+|----------|----------|-------------|
+| **Fast checks** | `lint`, `typecheck`, `build`, `test` (unit tests) | Every user story |
+| **Slow checks** | `test:e2e`, `test:integration`, `cypress`, `playwright`, `e2e`, `integration` | Final story only |
 
-**Selecting the right check command:**
+**How to identify slow checks:**
+- Script names containing: `e2e`, `integration`, `cypress`, `playwright`, `selenium`, `puppeteer`
+- Scripts that launch browsers or external services
+- Scripts with significantly longer timeouts in CI config
+- Any test that requires a running server or database setup
 
-1. If there's a `check`, `ci`, or `validate` script that runs everything → use that single command
-2. If CI config has comprehensive commands → use those exact commands
-3. Otherwise → combine relevant scripts: `npm run lint && npm run build && npm test`
-4. If nothing found → ask the user what checks should pass
+**Constructing the check commands:**
 
-**Example:** For a project with `"check": "npm run lint && npm run build && npm run test"` in package.json, acceptance criteria should use `npm run check`.
+1. **Fast check command** - Combine lint, typecheck, build, and unit tests:
+   - If project has `check:fast` or similar → use that
+   - Otherwise → combine: `npm run lint && npm run build && npm test` (excluding e2e)
+   - For Go: `go vet ./... && go build ./... && go test ./...`
+   - For Python: `ruff check . && pytest -m "not e2e"`
+
+2. **Full check command** - Include everything (fast + slow):
+   - If project has `check`, `ci`, or `validate` that runs all → use that
+   - Otherwise → combine all: `npm run lint && npm run build && npm test && npm run test:e2e`
+
+3. If nothing found → ask the user what checks should pass
+
+**Example classification:**
+
+For a project with these scripts in package.json:
+```json
+{
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tsc",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "check": "npm run lint && npm run build && npm test && npm run test:e2e"
+  }
+}
+```
+
+- **Fast checks:** `npm run lint && npm run build && npm test`
+- **Full checks:** `npm run check`
+
+Use fast checks in each implementation story. Use full checks in the final e2e story.
 
 ### 4. Functional Requirements
 Numbered list of specific functionalities:
@@ -181,106 +231,22 @@ The PRD reader may be a junior developer or AI agent. Therefore:
 
 ---
 
-## Example PRD
+---
 
-```markdown
-# PRD: Task Priority System
+## Final Verification
 
-## Introduction
+Before saving, verify:
 
-Add priority levels to tasks so users can focus on what matters most. Tasks can be marked as high, medium, or low priority, with visual indicators and filtering to help users manage their workload effectively.
-
-## Goals
-
-- Allow assigning priority (high/medium/low) to any task
-- Provide clear visual differentiation between priority levels
-- Enable filtering and sorting by priority
-- Default new tasks to medium priority
-
-## User Stories
-
-### US-001: Add priority field to database
-**Description:** As a developer, I need to store task priority so it persists across sessions.
-
-**Acceptance Criteria:**
-- [ ] Add priority column to tasks table: 'high' | 'medium' | 'low' (default 'medium')
-- [ ] Generate and run migration successfully
-- [ ] All checks pass: `npm run ci`
-
-### US-002: Display priority indicator on task cards
-**Description:** As a user, I want to see task priority at a glance so I know what needs attention first.
-
-**Acceptance Criteria:**
-- [ ] Each task card shows colored priority badge (red=high, yellow=medium, gray=low)
-- [ ] Priority visible without hovering or clicking
-- [ ] Write e2e test scripts using /agent-browser skill
-- [ ] All checks pass: `npm run ci`
-
-### US-003: Add priority selector to task edit
-**Description:** As a user, I want to change a task's priority when editing it.
-
-**Acceptance Criteria:**
-- [ ] Priority dropdown in task edit modal
-- [ ] Shows current priority as selected
-- [ ] Saves immediately on selection change
-- [ ] Write e2e test scripts using /agent-browser skill
-- [ ] All checks pass: `npm run ci`
-
-### US-004: Filter tasks by priority
-**Description:** As a user, I want to filter the task list to see only high-priority items when I'm focused.
-
-**Acceptance Criteria:**
-- [ ] Filter dropdown with options: All | High | Medium | Low
-- [ ] Filter persists in URL params
-- [ ] Empty state message when no tasks match filter
-- [ ] Write e2e test scripts using /agent-browser skill
-- [ ] All checks pass: `npm run ci`
-
-## Functional Requirements
-
-- FR-1: Add `priority` field to tasks table ('high' | 'medium' | 'low', default 'medium')
-- FR-2: Display colored priority badge on each task card
-- FR-3: Include priority selector in task edit modal
-- FR-4: Add priority filter dropdown to task list header
-- FR-5: Sort by priority within each status column (high to medium to low)
-
-## Non-Goals
-
-- No priority-based notifications or reminders
-- No automatic priority assignment based on due date
-- No priority inheritance for subtasks
-
-## Technical Considerations
-
-- Reuse existing badge component with color variants
-- Filter state managed via URL search params
-- Priority stored in database, not computed
-- **Project checks:** `npm run ci` (discovered from package.json - runs lint, build, and test)
-
-## Success Metrics
-
-- Users can change priority in under 2 clicks
-- High-priority tasks immediately visible at top of lists
-- No regression in task list performance
-
-## Open Questions
-
-- Should priority affect task ordering within a column?
-- Should we add keyboard shortcuts for priority changes?
-```
+- [ ] User stories are small (completable in one focused session)
+- [ ] Implementation stories use fast checks only (no e2e)
+- [ ] Final e2e story added (if project has slow checks)
+- [ ] Functional requirements are numbered and unambiguous
+- [ ] Non-goals section defines clear boundaries
+- [ ] Documentation updates included (if feature changes user-facing behavior)
+- [ ] PRD matches user's requirements—nothing more, nothing less
 
 ---
 
-## Checklist
+## Example PRD
 
-Before saving the PRD:
-
-- [ ] Asked clarifying questions with lettered options
-- [ ] Incorporated user's answers
-- [ ] User stories are small and specific
-- [ ] Acceptance criteria use project-specific check commands
-- [ ] Functional requirements are numbered and unambiguous
-- [ ] Non-goals section defines clear boundaries
-- [ ] Documentation updates section included (or user story for docs)
-- [ ] PRD content precisely matches to user's requirements, nothing more, nothing less
-- [ ] Saved to `tasks/prd-[feature-name].md`
+See [examples/priority-system.md](examples/priority-system.md) for a complete example demonstrating all sections, user story format, and check categorization.
