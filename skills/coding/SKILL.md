@@ -31,6 +31,15 @@ disable-model-invocation: true
 - 200-400 lines typical, 800 max
 - Organize by feature/domain, not by type
 
+## Pre-Implementation Checklist
+
+Before writing new code:
+
+- [ ] Check for existing configuration patterns (environment files, config services)
+- [ ] Check how similar features handle the same concern (API URLs, constants, state management)
+- [ ] Don't introduce new patterns when established ones exist
+- [ ] Scan for existing utilities that solve the same problem
+
 ## Code Quality Checklist
 
 Before completing work:
@@ -39,7 +48,7 @@ Before completing work:
 - [ ] Files < 800 lines
 - [ ] No nesting > 4 levels (use early returns)
 - [ ] No magic numbers (use named constants)
-- [ ] No hardcoded values
+- [ ] No hardcoded values (use environment config for URLs, API keys, etc.)
 - [ ] Errors handled with context
 - [ ] Input validated at boundaries
 
