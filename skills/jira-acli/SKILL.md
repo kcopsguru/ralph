@@ -7,7 +7,7 @@ description: Manage Jira issues, sprints, and projects using the acli command li
 
 ## Overview
 
-The `acli jira` CLI provides commands for managing Jira Cloud issues, sprints, projects, and boards directly from the terminal.
+The `acli jira` CLI provides commands for managing Jira Cloud issues, sprints, projects, and boards.
 
 **Always use `--json` flag** for machine-readable output.
 
@@ -19,6 +19,49 @@ acli jira workitem create --help
 ```
 
 **Documentation**: https://developer.atlassian.com/cloud/acli/reference/commands/jira/
+
+## Contents
+- [Authentication](#authentication-required-before-any-command) - Check/login before commands
+- [Configuration](#configuration) - Project and user settings
+- [Workitem Operations](#common-workitem-operations) - CRUD, transitions, comments
+- [Sprint Management](#sprint-management) - Sprints and boards
+- [Project Management](#project-management) - Projects and boards
+- [JQL Quick Reference](#jql-quick-reference) - Common query patterns
+
+## Authentication (REQUIRED Before Any Command)
+
+**ALWAYS verify authentication status before running any acli jira command.** This prevents failed requests due to expired or missing authentication.
+
+### Step 1: Load configuration and check auth status
+
+```bash
+source .ralph/.env && source ~/.config/acli/auth/$JIRA_SITE && acli jira auth status
+```
+
+### Step 2: If unauthorized, login first
+
+If the auth status check returns an error or shows unauthorized, login before proceeding:
+
+```bash
+source .ralph/.env && source ~/.config/acli/auth/$JIRA_SITE && \
+  echo "$JIRA_API_TOKEN" | acli jira auth login --site "$JIRA_SITE" --email "$JIRA_EMAIL" --token
+```
+
+### Step 3: Proceed with your command
+
+Only after successful authentication, run your intended command.
+
+**Example workflow:**
+```bash
+# 1. Check auth (ALWAYS do this first)
+source .ralph/.env && source ~/.config/acli/auth/$JIRA_SITE && acli jira auth status
+
+# 2. If unauthorized, login
+echo "$JIRA_API_TOKEN" | acli jira auth login --site "$JIRA_SITE" --email "$JIRA_EMAIL" --token
+
+# 3. Now run your command
+acli jira workitem view KEY-123 --json
+```
 
 ## Configuration
 
@@ -52,36 +95,6 @@ source .ralph/.env
 source ~/.config/acli/auth/$JIRA_SITE
 
 # Now both JIRA_PROJECT_KEY and JIRA_EMAIL/JIRA_API_TOKEN are available
-```
-
-## Authentication
-
-Before using acli, authenticate with your Jira instance.
-
-### Check auth status
-
-```bash
-acli jira auth status
-```
-
-### Login (if not authenticated)
-
-```bash
-# Load configs first
-source .ralph/.env
-source ~/.config/acli/auth/$JIRA_SITE
-
-# Login with API token
-echo "$JIRA_API_TOKEN" | acli jira auth login \
-  --site "$JIRA_SITE" \
-  --email "$JIRA_EMAIL" \
-  --token
-```
-
-### Switch accounts (if multiple)
-
-```bash
-acli jira auth switch
 ```
 
 ## Command Structure
@@ -244,7 +257,8 @@ project = $JIRA_PROJECT_KEY AND status != Done AND assignee = currentUser()
 
 ## Tips
 
-1. **Always use `--json` flag** for machine-readable output
-2. **Use `--yes` flag** for non-interactive bulk operations
-3. **Use JQL for bulk operations** instead of listing individual keys
-4. **Check available transitions** - status names must match exactly what's configured in the project workflow
+1. **ALWAYS check auth status first** - Run `acli jira auth status` before any command to avoid failed requests
+2. **Always use `--json` flag** for machine-readable output
+3. **Use `--yes` flag** for non-interactive bulk operations
+4. **Use JQL for bulk operations** instead of listing individual keys
+5. **Check available transitions** - status names must match exactly what's configured in the project workflow
