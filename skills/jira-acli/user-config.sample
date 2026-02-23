@@ -1,0 +1,8 @@
+# Jira User Configuration for acli
+# Copy to ~/.config/acli/auth/<site-name> (e.g., ~/.config/acli/auth/mycompany.atlassian.net)
+
+# Your Atlassian account email
+JIRA_EMAIL=user@example.com
+
+# API token
+JIRA_API_TOKEN=your-api-token-here
