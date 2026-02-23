@@ -72,7 +72,7 @@ Added N stories to .ralph/prd.json:
 
 ## Next Steps
 1. Run developer agent loop to fix new stories
-2. Run /ralph-code-review again
+2. Run /code-review again
 3. Repeat until no issues remain
 ```
 
