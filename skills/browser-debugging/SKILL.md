@@ -164,11 +164,16 @@ npx agent-browser eval "document.title" --json
 npx agent-browser eval "localStorage.getItem('token')" --json
 ```
 
-### 9. Close Session
+### 9. Close Session (Required!)
 
 ```bash
 npx agent-browser close
+
+# If using a named session
+npx agent-browser --session my-debug close
 ```
+
+> **Important**: Always close your session when finished. Unclosed sessions leave orphaned `chrome-headless-shell` processes running. To check for orphaned processes: `ps aux | grep chrome-headless-shell`
 
 ## Common Debugging Scenarios
 
@@ -187,6 +192,7 @@ npx agent-browser fill @email ""
 npx agent-browser click @submit
 npx agent-browser snapshot -i --json  # Check for validation messages
 npx agent-browser screenshot ./validation-error.png
+npx agent-browser close  # Always close when done
 ```
 
 ### API Response Inspection
@@ -225,6 +231,7 @@ npx agent-browser fill @password "testpass"
 npx agent-browser click @login-button
 npx agent-browser wait 2000  # Wait for redirect
 npx agent-browser get url --json  # Verify redirect
+npx agent-browser close  # Always close when done
 ```
 
 ## Environment Variables
@@ -245,4 +252,32 @@ export AGENT_BROWSER_SESSION="debug"
 6. **Take screenshots** to document bugs or verify fixes
 7. **Check console/errors** when something doesn't work
 8. **Use named sessions** (`--session`) when debugging multiple scenarios
-9. **Close sessions** when done to free resources
+9. **Always close sessions** when done - this is critical to avoid orphaned processes
+
+## Troubleshooting
+
+### Orphaned Browser Processes
+
+If you forget to close sessions, orphaned `chrome-headless-shell` processes accumulate:
+
+```bash
+# Check for orphaned processes
+ps aux | grep chrome-headless-shell
+
+# Clean up orphaned chrome processes
+pkill -f "chrome-headless-shell"
+
+# If needed, also restart the agent-browser daemon
+pkill -f "agent-browser.*daemon"
+```
+
+### Resource Temporarily Unavailable (Error 35)
+
+If you see this error, the agent-browser daemon's IPC socket may be overloaded:
+
+```bash
+# Restart the daemon
+pkill -f "agent-browser.*daemon"
+
+# Wait a moment, then retry your command
+```
