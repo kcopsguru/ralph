@@ -13,12 +13,13 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 
 ## User Stories
 
-### US-001: Add priority field to database
+### US-001: Persist task priority
 **Description:** As a developer, I need to store task priority so it persists across sessions.
 
 **Acceptance Criteria:**
-- [ ] Add priority column to tasks table: 'high' | 'medium' | 'low' (default 'medium')
-- [ ] Generate and run migration successfully
+- [ ] Task priority persists after page refresh
+- [ ] New tasks default to medium priority
+- [ ] Priority values are limited to: high, medium, low
 - [ ] All checks pass: `npm run lint && npm run build && npm test`
 
 ### US-002: Display priority indicator on task cards
@@ -55,31 +56,23 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 
 **Acceptance Criteria:**
 - [ ] Add any missing e2e tests for new functionality
-- [ ] All e2e tests pass: `npm run test:e2e`
+- [ ] All checks pass: `npm run lint && npm run build && npm test && npm run test:e2e`
 - [ ] README updated with priority feature usage
 - [ ] API docs updated if priority endpoints added
 
-## Functional Requirements
+## Technical Considerations
 
-- FR-1: Add `priority` field to tasks table ('high' | 'medium' | 'low', default 'medium')
-- FR-2: Display colored priority badge on each task card
-- FR-3: Include priority selector in task edit modal
-- FR-4: Add priority filter dropdown to task list header
-- FR-5: Sort by priority within each status column (high to medium to low)
+- Priority values: 'high' | 'medium' | 'low' (default: 'medium')
+- Priority is persisted in database, not computed dynamically
+- Filter state should be shareable via URL
+- **Fast checks (each story):** `npm run lint && npm run build && npm test`
+- **Full checks (final story):** `npm run test:e2e` (Playwright browser tests)
 
 ## Non-Goals
 
 - No priority-based notifications or reminders
 - No automatic priority assignment based on due date
 - No priority inheritance for subtasks
-
-## Technical Considerations
-
-- Reuse existing badge component with color variants
-- Filter state managed via URL search params
-- Priority stored in database, not computed
-- **Fast checks (each story):** `npm run lint && npm run build && npm test`
-- **Full checks (final story):** `npm run test:e2e` (Playwright browser tests)
 
 ## Success Metrics
 
