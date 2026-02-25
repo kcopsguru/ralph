@@ -26,6 +26,7 @@ acli jira workitem create --help
 - [Workitem Operations](#common-workitem-operations) - CRUD, transitions, comments
 - [Sprint Management](#sprint-management) - Sprints and boards
 - [Project Management](#project-management) - Projects and boards
+- [Common Workflows](#common-workflows) - Epic linking, sprint assignment
 - [JQL Quick Reference](#jql-quick-reference) - Common query patterns
 
 ## Authentication (REQUIRED Before Any Command)
@@ -196,21 +197,23 @@ acli jira workitem unarchive --key "KEY-123" --json
 
 ## Sprint Management
 
+**Note:** Flag names vary between commands. Always run `--help` on the specific subcommand to verify.
+
 ```bash
-# List sprints for a board
-acli jira board list-sprints --board-id 123 --json
+# List sprints for a board (flag: --id, not --board-id)
+acli jira board list-sprints --id 123 --json
 
 # View sprint details
-acli jira sprint view --sprint-id 456 --json
+acli jira sprint view --id 456 --json
 
-# List work items in sprint
-acli jira sprint list-workitems --sprint-id 456 --json
+# List work items in sprint (requires both --sprint and --board)
+acli jira sprint list-workitems --sprint 456 --board 123 --json
 
 # Create sprint
-acli jira sprint create --board-id 123 --name "Sprint 5" --json
+acli jira sprint create --board 123 --name "Sprint 5" --json
 
 # Update sprint
-acli jira sprint update --sprint-id 456 --name "Sprint 5 - Extended" --json
+acli jira sprint update --id 456 --name "Sprint 5 - Extended" --json
 ```
 
 ## Project Management
@@ -239,6 +242,56 @@ acli jira board get --board-id 123 --json
 acli jira board list-projects --board-id 123 --json
 ```
 
+## Common Workflows
+
+### Create Story Linked to Epic
+
+Use `--parent` to link a Story (or other issue type) to an Epic:
+
+```bash
+acli jira workitem create \
+  --project "$JIRA_PROJECT_KEY" \
+  --type "Story" \
+  --summary "Implement feature X" \
+  --parent "PROJ-123" \
+  --assignee "@me" \
+  --json
+```
+
+### Add Issue to Sprint
+
+**acli does not have a command to add issues to sprints.** Use the Jira Agile REST API directly:
+
+```bash
+# First, find the sprint ID
+acli jira board list-sprints --id <board-id> --json
+
+# Then add issue to sprint via REST API
+curl -X POST "https://$JIRA_SITE/rest/agile/1.0/sprint/<sprint-id>/issue" \
+  -H "Authorization: Basic $(echo -n "$JIRA_EMAIL:$JIRA_API_TOKEN" | base64)" \
+  -H "Content-Type: application/json" \
+  -d '{"issues": ["KEY-123"]}'
+```
+
+### Complete Workflow: Create Story with Epic and Sprint
+
+```bash
+# 1. Create story linked to epic
+ISSUE_KEY=$(acli jira workitem create \
+  --project "$JIRA_PROJECT_KEY" \
+  --type "Story" \
+  --summary "My new story" \
+  --parent "PROJ-10" \
+  --assignee "@me" \
+  --json | jq -r '.key')
+
+# 2. Add to sprint via REST API
+curl -X POST "https://$JIRA_SITE/rest/agile/1.0/sprint/<sprint-id>/issue" \
+  -H "Authorization: Basic $(echo -n "$JIRA_EMAIL:$JIRA_API_TOKEN" | base64)" \
+  -H "Content-Type: application/json" \
+  -d "{\"issues\": [\"$ISSUE_KEY\"]}"
+```
+
 ## JQL Quick Reference
 
 Common JQL patterns:
@@ -262,3 +315,5 @@ project = $JIRA_PROJECT_KEY AND status != Done AND assignee = currentUser()
 3. **Use `--yes` flag** for non-interactive bulk operations
 4. **Use JQL for bulk operations** instead of listing individual keys
 5. **Check available transitions** - status names must match exactly what's configured in the project workflow
+6. **Always run `--help` on subcommands** - Flag names are inconsistent across commands (e.g., `--id` vs `--board` vs `--sprint`)
+7. **Use `--parent` for epic linking** - Works for Stories, Tasks, and other issue types
