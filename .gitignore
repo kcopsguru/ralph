@@ -1,6 +1,10 @@
 # Ralph working files (generated during runs)
 .ralph/*
 
+# Coding agents
+.cursor/
+.pi
+
 # Uncomment to commit archives of completed feature runs
 # !.ralph/archive/
 
