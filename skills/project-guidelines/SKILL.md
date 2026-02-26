@@ -1,5 +1,5 @@
 ---
-name: creating-project-guidelines
+name: project-guidelines
 description: Creates project-guidelines documents capturing architecture, patterns, and workflows. Use for existing codebases (analyzes current code) or greenfield projects (interviews user, researches best practices). Triggers on "document this project", "create project guidelines", "set up guidelines for new project", or architecture documentation requests.
 ---
 
