@@ -4,10 +4,15 @@ Manual review of code changes against PRD requirements.
 
 ## Get Changes
 
+First, read `.ralph/prd.json` to get the `startingPoint` field. This is the commit/branch the feature branch was created from. Use this instead of hardcoding `main`.
+
 ```bash
-git diff --name-only main...HEAD  # Changed files
-git diff main...HEAD              # Full diff
-git status --porcelain            # Uncommitted changes (prompt to commit first)
+# Get starting point from prd.json (default to 'main' if not set)
+START=$(jq -r '.startingPoint // "main"' .ralph/prd.json)
+
+git diff --name-only $START...HEAD  # Changed files
+git diff $START...HEAD              # Full diff
+git status --porcelain              # Uncommitted changes (prompt to commit first)
 ```
 
 ## File Review Checklist

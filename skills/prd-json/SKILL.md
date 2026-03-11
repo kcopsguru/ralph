@@ -14,6 +14,8 @@ Converts existing PRDs to the prd.json format that Ralph uses for autonomous exe
 
 Take a PRD (markdown file or text) and convert it to `.ralph/prd.json` in your project directory. The `.ralph/` directory keeps all Ralph state files organized and out of your project root.
 
+**IMPORTANT**: Must confirm with the user about the starting point for the new feature branch before creating the output.
+
 ---
 
 ## Output Format
@@ -22,6 +24,7 @@ Take a PRD (markdown file or text) and convert it to `.ralph/prd.json` in your p
 {
   "project": "[Project Name]",
   "branchName": "ralph/[feature-name-kebab-case]",
+  "startingPoint": "[Starting point of the feature branch]",
   "description": "[Feature description from PRD title/intro]",
   "reference": "[Path to the original PRD file]",
   "userStories": [
@@ -131,7 +134,8 @@ Frontend stories are NOT complete until verified using e2e scripts. Ralph will u
 3. **Priority**: Based on dependency order, then document order
 4. **All stories**: `passes: false` and empty `notes`
 5. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
-6. **Always add**: "All check passes" to every story's acceptance criteria
+6. **startingPoint**: The starting point for the new feature branch
+7. **Always add**: "All check passes" to every story's acceptance criteria
 
 ---
 
@@ -174,6 +178,7 @@ Add ability to mark tasks with different statuses.
 {
   "project": "TaskApp",
   "branchName": "ralph/task-status",
+  "startingPoint": "6b7ab",
   "description": "Task Status Feature - Track task progress with status indicators",
   "userStories": [
     {
@@ -265,6 +270,7 @@ Before writing `.ralph/prd.json`, verify:
 
 - [ ] **`.ralph/` directory exists** (create if needed)
 - [ ] **Previous run archived** (if `.ralph/prd.json` exists with different branchName, you MUST archive it first - see Archiving section)
+- [ ] Confirm user with the starting point for the feature branch
 - [ ] Each story is completable in one iteration (small enough)
 - [ ] Stories are ordered by dependency (schema to backend to UI)
 - [ ] UI stories have "Write e2e test scripts using /agent-browser skill" as criterion

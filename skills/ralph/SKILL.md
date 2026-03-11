@@ -36,7 +36,7 @@ Write the PRD's `branchName` to `.ralph/.last-branch`
 If `.ralph/progress.txt` doesn't exist (and wasn't just reset above), create it with the same fresh header.
 
 ### 4. Git Branch
-Check you're on the correct branch from PRD `branchName`. If not, check it out or create from main.
+Check you're on the correct branch from PRD `branchName`. If not, check it out or create from the starting point.
 
 ### 5. Load Development Skills (REQUIRED)
 Before implementing any code, you MUST load and read these skills:
