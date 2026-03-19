@@ -62,7 +62,7 @@ Before completing work:
 
 ## Comments
 
-- Do not reference user story IDs (i.e. this logic is intended for US-001)
+- Do not reference user story IDs in code comments, test descriptions, or commit messages
 
 ## Language & Framework Guidelines
 
